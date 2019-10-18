@@ -1,17 +1,17 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import ScanScreen from '../screens/ScanScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
-  default: {},
+  default: { headerMode: 'none' },
 });
 
 const HomeStack = createStackNavigator(
@@ -25,13 +25,9 @@ HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
-      Icon={Ionicons}
+      Icon={FontAwesome}
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name="home"
     />
   ),
   tabBarOptions: {
@@ -41,24 +37,24 @@ HomeStack.navigationOptions = {
 
 HomeStack.path = '';
 
-const LinksStack = createStackNavigator(
+const ScanStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    Scans: ScanScreen,
   },
   config
 );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+ScanStack.navigationOptions = {
+  tabBarLabel: 'Scans',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon Icon={Ionicons} focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon Icon={FontAwesome} focused={focused} name="camera" />
   ),
   tabBarOptions: {
     activeTintColor: Colors.tabIconSelected
   }
 };
 
-LinksStack.path = '';
+ScanStack.path = '';
 
 const SettingsStack = createStackNavigator(
   {
@@ -81,7 +77,7 @@ SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  LinksStack,
+  ScanStack,
   SettingsStack,
 });
 
