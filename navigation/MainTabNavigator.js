@@ -1,6 +1,8 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Ionicons } from '@expo/vector-icons';
+import Colors from '../constants/Colors';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -23,6 +25,7 @@ HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
+      Icon={Ionicons}
       focused={focused}
       name={
         Platform.OS === 'ios'
@@ -31,6 +34,9 @@ HomeStack.navigationOptions = {
       }
     />
   ),
+  tabBarOptions: {
+    activeTintColor: Colors.tabIconSelected
+  }
 };
 
 HomeStack.path = '';
@@ -45,8 +51,11 @@ const LinksStack = createStackNavigator(
 LinksStack.navigationOptions = {
   tabBarLabel: 'Links',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon Icon={Ionicons} focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
   ),
+  tabBarOptions: {
+    activeTintColor: Colors.tabIconSelected
+  }
 };
 
 LinksStack.path = '';
@@ -61,8 +70,11 @@ const SettingsStack = createStackNavigator(
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon Icon={Ionicons} focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   ),
+  tabBarOptions: {
+    activeTintColor: Colors.tabIconSelected
+  }
 };
 
 SettingsStack.path = '';
