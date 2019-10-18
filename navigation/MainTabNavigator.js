@@ -7,7 +7,7 @@ import Colors from '../constants/Colors';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ScanScreen from '../screens/ScanScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ChartScreen from '../screens/ChartScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -56,29 +56,29 @@ ScanStack.navigationOptions = {
 
 ScanStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const ChartStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Chart: ChartScreen,
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+ChartStack.navigationOptions = {
+  tabBarLabel: 'Chart',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon Icon={Ionicons} focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon Icon={FontAwesome} focused={focused} name="line-chart" />
   ),
   tabBarOptions: {
     activeTintColor: Colors.tabIconSelected
   }
 };
 
-SettingsStack.path = '';
+ChartStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   ScanStack,
-  SettingsStack,
+  ChartStack,
 });
 
 tabNavigator.path = '';
