@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Dimensions, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 import {
     LineChart
@@ -7,6 +7,14 @@ import {
 
 export default function ScanScreen() {
     return <View style={style.container}>
+        <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity><Text style={{ color: "#ffffff", fontSize: 15, fontWeight: 'bold' }}>X</Text></TouchableOpacity>
+                <Text style={{ color: "#ffffff", fontSize: 15, fontWeight: 'bold', marginLeft: 10 }}>Monthly Report</Text>
+            </View>
+            <TouchableOpacity><Text style={{ color: "#ffffff", fontSize: 15, fontWeight: 'bold' }}>Agust 2019</Text></TouchableOpacity>
+        </View>
+
         <LineChart
             data={{
                 labels: ["January", "February", "March", "April", "May", "June"],
@@ -27,9 +35,9 @@ export default function ScanScreen() {
             height={190}
             yAxisLabel={"$"}
             chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "#000000",
-                backgroundGradientTo: "#212120",
+                backgroundColor: "#52b79a",
+                backgroundGradientFrom: "#2ec79c",
+                backgroundGradientTo: "#2ec79c",
                 decimalPlaces: 2, // optional, defaults to 2dp
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -58,7 +66,7 @@ export default function ScanScreen() {
             <ScrollView style={style.boxHistory}>
                 <Text style={{ color: "#52b79a", fontSize: 18, fontWeight: "bold", marginVertical: 15 }}>History</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                    
+
                     <View style={{ backgroundColor: "#ddebf9", width: "49%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }}>
                         <Text style={{ paddingVertical: 5, fontWeight: 'bold' }}>12 Agus</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -74,7 +82,7 @@ export default function ScanScreen() {
                             <Text style={{ color: 'red', fontWeight: 'bold' }}>70.000</Text>
                         </View>
                     </View>
-                    
+
                     <View style={{ backgroundColor: "#ddebf9", width: "49%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }}>
                         <Text style={{ paddingVertical: 5, fontWeight: 'bold' }}>10 Agus</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -90,7 +98,7 @@ export default function ScanScreen() {
                             <Text style={{ color: 'red', fontWeight: 'bold' }}>70.000</Text>
                         </View>
                     </View>
-                    
+
                     <View style={{ backgroundColor: "#ddebf9", width: "49%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }}>
                         <Text style={{ paddingVertical: 5, fontWeight: 'bold' }}>10 Agus</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -106,7 +114,7 @@ export default function ScanScreen() {
                             <Text style={{ color: 'red', fontWeight: 'bold' }}>70.000</Text>
                         </View>
                     </View>
-                    
+
                 </View>
             </ScrollView>
         </View>
@@ -116,7 +124,7 @@ export default function ScanScreen() {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000000'
+        backgroundColor: '#2ec79c'
     },
     box: {
         height: "90%",
