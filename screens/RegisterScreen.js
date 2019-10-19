@@ -10,7 +10,7 @@ export default function LoginScreen(props) {
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             <View style={{ padding: 20 }}>
-                <Text style={styles.logo} >FinTrack</Text>
+                <Text style={styles.logo} >FinTrace</Text>
                 <Text style={styles.logoWord} >Your Transaction Solution</Text>
             </View>
             <View style={styles.loginForm}>
