@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { setLoginStatus } from '../redux/actions'
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Alert, AsyncStorage } from 'react-native'
 import Color from '../constants/Colors'
@@ -9,11 +9,21 @@ import { UserAxios } from '../constants/Utilities'
 export default function LoginScreen(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const [loading, setLoading] = useState(false)
     const dispatch = useDispatch();
+    const isLogin = useSelector(state => state.user.isLogin)
 
-    handleLogin = async () => {
+
+    useEffect(() => {
+        if (isLogin) {
+            console.log(isLogin, "HOME")
+            props.navigation.navigate('Main')
+        }
+    }, [])
+
+    const handleLogin = async () => {
         try {
+            await setLoading(true)
             const { data } = await UserAxios({
                 url: "/login",
                 method: "POST",
@@ -24,7 +34,10 @@ export default function LoginScreen(props) {
             })
             await AsyncStorage.setItem("token", data.token)
             await AsyncStorage.setItem("user", JSON.stringify(data.user))
-            dispatch(setLoginStatus(true))
+            await setLoading(false)
+
+            await dispatch(setLoginStatus(true))
+
             props.navigation.navigate('Main')
 
         } catch (err) {
@@ -35,6 +48,7 @@ export default function LoginScreen(props) {
             Alert.alert("Invalid Email/Password")
         }
     }
+    if (loading) return <Text>Loading...</Text>
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             <View style={{ padding: 20 }}>
@@ -55,7 +69,7 @@ export default function LoginScreen(props) {
                     secureTextEntry={true}
                 />
                 <TouchableOpacity style={styles.submitButton} onPress={handleLogin}>
-                    <Text style={styles.submitText}>LOGIN</Text>
+                    <Text style={styles.submitText}>LOGINs</Text>
                 </TouchableOpacity>
 
                 <View style={{ justifyContent: "center", alignItems: "center", padding: 20 }}>
@@ -64,7 +78,7 @@ export default function LoginScreen(props) {
                         <Text style={{ color: "white" }}>Create a New </Text>
                         <Text style={{ fontWeight: "800", color: "white" }}>Account</Text>
                     </View>
-                    <TouchableOpacity style={{ paddingTop: 10 }} onPress={() => { console.log(props); props.navigation.navigate('Register') }}>
+                    <TouchableOpacity style={{ paddingTop: 10 }} onPress={() => { props.navigation.navigate('Register') }}>
                         <Text style={{ color: "blue", textTransform: "uppercase" }}>REGISTER</Text>
                     </TouchableOpacity>
                 </View>
