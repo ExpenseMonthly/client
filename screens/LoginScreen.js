@@ -1,11 +1,43 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { useDispatch } from 'react-redux'
+import { setLoginStatus } from '../redux/actions'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Alert, AsyncStorage } from 'react-native'
 import Color from '../constants/Colors'
 import Constants from 'expo-constants'
+import { UserAxios } from '../constants/Utilities'
+
 export default function LoginScreen(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const dispatch = useDispatch();
+
+    handleLogin = () => {
+        UserAxios({
+            url: "/login",
+            method: "POST",
+            data: {
+                email,
+                password
+            }
+        })
+            .then(async ({ data }) => {
+                try {
+                    await AsyncStorage.setItem("token", data.token)
+                    await AsyncStorage.setItem("user", JSON.stringify(data.user))
+                    dispatch(setLoginStatus(true))
+                    props.navigation.navigate('Main')
+                } catch (err) {
+                    console.log(err)
+                    alert("Oppsss something gone wrong.. please reload!")
+                }
+            })
+            .catch(err => {
+                const errorMessage = err.response.data.message
+                console.log(errorMessage)
+                Alert.alert("Invalid Email/Password")
+            })
+    }
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             <View style={{ padding: 20 }}>
@@ -25,7 +57,7 @@ export default function LoginScreen(props) {
                     onChangeText={text => setPassword(text)}
                     secureTextEntry={true}
                 />
-                <TouchableOpacity style={styles.submitButton}>
+                <TouchableOpacity style={styles.submitButton} onPress={handleLogin}>
                     <Text style={styles.submitText}>LOGIN</Text>
                 </TouchableOpacity>
 

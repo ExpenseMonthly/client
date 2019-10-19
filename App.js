@@ -4,7 +4,8 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
+import { Provider } from 'react-redux'
+import store from './redux'
 import AppNavigator from './navigation/AppNavigator';
 import Constants from 'expo-constants'
 export default function App(props) {
@@ -20,10 +21,13 @@ export default function App(props) {
         );
     } else {
         return (
-            <View style={styles.container}>
-                <StatusBar />
-                <AppNavigator />
-            </View>
+            <Provider store={store}>
+
+                <View style={styles.container}>
+                    <StatusBar />
+                    <AppNavigator />
+                </View>
+            </Provider>
         );
     }
 }
