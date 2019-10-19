@@ -10,75 +10,75 @@ import ScanScreen from '../screens/ScanScreen';
 import ChartScreen from '../screens/ChartScreen';
 
 const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: { headerMode: 'none' },
+    web: { headerMode: 'screen' },
+    default: { headerMode: 'none' },
 });
 
 const HomeStack = createStackNavigator(
-  {
-    Home: HomeScreen,
-  },
-  config
+    {
+        Home: HomeScreen,
+    },
+    config
 );
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      Icon={FontAwesome}
-      focused={focused}
-      name="home"
-    />
-  ),
-  tabBarOptions: {
-    activeTintColor: Colors.tabIconSelected
-  }
+    tabBarLabel: 'Home',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            Icon={FontAwesome}
+            focused={focused}
+            name="home"
+        />
+    ),
+    tabBarOptions: {
+        activeTintColor: Colors.tabIconSelected
+    }
 };
 
 HomeStack.path = '';
 
 const ScanStack = createStackNavigator(
-  {
-    Scans: ScanScreen,
-  },
-  config
+    {
+        Scans: ScanScreen,
+    },
+    config
 );
 
 ScanStack.navigationOptions = {
-  tabBarLabel: 'Scans',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon Icon={FontAwesome} focused={focused} name="camera" />
-  ),
-  tabBarOptions: {
-    activeTintColor: Colors.tabIconSelected
-  }
+    tabBarLabel: 'Scans',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon Icon={FontAwesome} focused={focused} name="camera" />
+    ),
+    tabBarOptions: {
+        activeTintColor: Colors.tabIconSelected
+    }
 };
 
 ScanStack.path = '';
 
 const ChartStack = createStackNavigator(
-  {
-    Chart: ChartScreen,
-  },
-  config
+    {
+        Chart: ChartScreen,
+    },
+    config
 );
 
 ChartStack.navigationOptions = {
-  tabBarLabel: 'Chart',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon Icon={FontAwesome} focused={focused} name="line-chart" />
-  ),
-  tabBarOptions: {
-    activeTintColor: Colors.tabIconSelected
-  }
+    tabBarLabel: 'Chart',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon Icon={FontAwesome} focused={focused} name="line-chart" />
+    ),
+    tabBarOptions: {
+        activeTintColor: Colors.tabIconSelected
+    }
 };
 
 ChartStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  ChartStack,
-  HomeStack,
-  ScanStack,
+    HomeStack,
+    ChartStack,
+    ScanStack,
 });
 
 tabNavigator.path = '';
