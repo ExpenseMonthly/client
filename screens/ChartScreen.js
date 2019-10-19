@@ -17,35 +17,33 @@ export default function ScanScreen() {
 
         <LineChart
             data={{
-                labels: ["January", "February", "March", "April", "May", "June"],
+                labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
                 datasets: [
                     {
                         data: [
-                            Math.random() * 100,
-                            Math.random() * 100,
-                            Math.random() * 100,
-                            Math.random() * 100,
-                            Math.random() * 100,
-                            Math.random() * 100
+                            Math.random() * 1000,
+                            Math.random() * 1000,
+                            Math.random() * 1000,
+                            Math.random() * 1000
                         ]
                     }
                 ]
             }}
             width={Dimensions.get("window").width} // from react-native
             height={190}
-            yAxisLabel={"$"}
+            yAxisLabel={"Rp"}
             chartConfig={{
                 backgroundColor: "#52b79a",
                 backgroundGradientFrom: "#2ec79c",
                 backgroundGradientTo: "#2ec79c",
-                decimalPlaces: 2, // optional, defaults to 2dp
+                decimalPlaces: 2,
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 style: {
                     borderRadius: 16
                 },
                 propsForDots: {
-                    r: "6",
+                    r: "4",
                     strokeWidth: "2",
                     stroke: "#212120"
                 }
