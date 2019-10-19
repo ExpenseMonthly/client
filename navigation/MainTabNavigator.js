@@ -76,9 +76,9 @@ ChartStack.navigationOptions = {
 ChartStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
+  ChartStack,
   HomeStack,
   ScanStack,
-  ChartStack,
 });
 
 tabNavigator.path = '';
