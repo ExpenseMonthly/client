@@ -14,7 +14,7 @@ export default function ScanScreen() {
         "12.215"
     ]
     return (
-        <View style={[style.container, { marginTop: Constants.statusBarHeight }]}>
+        <View style={[style.container, { paddingTop: Constants.statusBarHeight }]}>
             <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity><Text style={{ color: "#ffffff", fontSize: 15, fontWeight: 'bold' }}>X</Text></TouchableOpacity>

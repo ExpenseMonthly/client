@@ -12,31 +12,28 @@ export default function LoginScreen(props) {
 
     const dispatch = useDispatch();
 
-    handleLogin = () => {
-        UserAxios({
-            url: "/login",
-            method: "POST",
-            data: {
-                email,
-                password
-            }
-        })
-            .then(async ({ data }) => {
-                try {
-                    await AsyncStorage.setItem("token", data.token)
-                    await AsyncStorage.setItem("user", JSON.stringify(data.user))
-                    dispatch(setLoginStatus(true))
-                    props.navigation.navigate('Main')
-                } catch (err) {
-                    console.log(err)
-                    alert("Oppsss something gone wrong.. please reload!")
+    handleLogin = async () => {
+        try {
+            const { data } = await UserAxios({
+                url: "/login",
+                method: "POST",
+                data: {
+                    email,
+                    password
                 }
             })
-            .catch(err => {
-                const errorMessage = err.response.data.message
-                console.log(errorMessage)
-                Alert.alert("Invalid Email/Password")
-            })
+            await AsyncStorage.setItem("token", data.token)
+            await AsyncStorage.setItem("user", JSON.stringify(data.user))
+            dispatch(setLoginStatus(true))
+            props.navigation.navigate('Main')
+
+        } catch (err) {
+            if (err.response)
+                console.log(err.response)
+            else
+                console.log(err)
+            Alert.alert("Invalid Email/Password")
+        }
     }
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
