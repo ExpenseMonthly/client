@@ -1,28 +1,45 @@
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Provider } from 'react-redux'
 import store from './redux'
 import AppNavigator from './navigation/AppNavigator';
 import Constants from 'expo-constants'
+import { setLoginStatus } from './redux/actions';
 export default function App(props) {
     const [isLoadingComplete, setLoadingComplete] = useState(false);
 
+    async function checkIsLogin() {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            if (token) {
+                await store.dispatch(setLoginStatus(true))
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        checkIsLogin()
+    }, [])
+
     if (!isLoadingComplete && !props.skipLoadingScreen) {
         return (
-            <AppLoading
-                startAsync={loadResourcesAsync}
-                onError={handleLoadingError}
-                onFinish={() => handleFinishLoading(setLoadingComplete)}
-            />
+            <Provider store={store}>
+
+                <AppLoading
+                    startAsync={loadResourcesAsync}
+                    onError={handleLoadingError}
+                    onFinish={() => handleFinishLoading(setLoadingComplete)}
+                />
+            </Provider>
         );
     } else {
         return (
             <Provider store={store}>
-
                 <View style={styles.container}>
                     <StatusBar />
                     <AppNavigator />

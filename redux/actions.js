@@ -4,6 +4,9 @@ import {
 
 export const setLoginStatus = (status) => {
     return function (dispatch) {
-        dispatch({ type: SET_LOGIN_STATUS, isLogin: status })
+        return new Promise((resolve, reject) => {
+            dispatch({ type: SET_LOGIN_STATUS, isLogin: status })
+            resolve()
+        })
     }
 }
