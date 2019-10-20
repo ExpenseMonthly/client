@@ -5,34 +5,51 @@ import { Camera } from 'expo-camera';
 import { FontAwesome } from '@expo/vector-icons';
 
 export default function ScanScreen(props) {
-    const [hasCameraPermission, setHasCameraPermission] = useState(null);
-    const [type, setType] = useState(Camera.Constants.Type.back);
-
+    const [hasCameraPermission, setHasCameraPermission] = useState('granted');
+    const [isFocused, setIsFocused] = useState(true)
     async function openCamera() {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA);
-        setHasCameraPermission({ hasCameraPermission: status === 'granted' });
+        try {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA);
+            setHasCameraPermission({ hasCameraPermission: status === 'granted' });
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {
         openCamera()
+        props.navigation.addListener(
+            'didFocus',
+            payload => {
+                setIsFocused(true)
+            }
+        )
+
+        props.navigation.addListener(
+            'didBlur',
+            payload => {
+                setIsFocused(false)
+            }
+        )
     }, []);
 
     snap = async () => {
-        if (camera) {
-            let photo = await camera.takePictureAsync();
-            
-            console.log(photo)
+        try {
+            if (camera) {
+                let photo = await camera.takePictureAsync();
+
+                console.log(photo)
+            }
+        } catch (error) {
+            console.log(error)
         }
     };
 
-    if (hasCameraPermission === null) {
-        return <Text>x</Text>;
-    } else if (hasCameraPermission === false) {
-        return <Text style={{color: 'blue'}}>No access to camera</Text>;
-    } else {
+    if (!isFocused) return <View><Text>testing</Text></View>
+    else if (isFocused)
         return (
             <View style={{ flex: 1 }}>
-                <Camera style={{ flex: 1, alignItems: "center" }} type={type} ref={ref => {
+                <Camera style={{ flex: 1, alignItems: "center" }} type={Camera.Constants.Type.back} ref={ref => {
                     camera = ref;
                 }}>
                     <View
@@ -49,9 +66,7 @@ export default function ScanScreen(props) {
                 </Camera>
             </View>
         );
-    }
 }
-
 const styles = StyleSheet.create({
     buttonCamera: {
         justifyContent: 'center',
