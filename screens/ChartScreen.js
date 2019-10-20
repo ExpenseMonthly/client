@@ -1,18 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Constants from 'expo-constants';
+import { TransactionAxios } from '../constants/Utilities'
 import {
     LineChart
 } from "react-native-chart-kit";
 
+export default function ScanScreen(props) {
+    const [loading, setLoading] = useState(false);
+    const [startDate, setStartDate] = useState('2019-10-15');
+    const [endDate, setEndDate] = useState('2019-10-22');
+    const [dataTransactions, setDataTransactions] = useState(Array);
 
-export default function ScanScreen() {
-    const fakeExpense = [
-        "70.000",
-        "20.000",
-        "12.000",
-        "12.215"
-    ]
+    const getTransactionRange = async () => {
+        try {
+            await setLoading(true)
+            const { data } = await TransactionAxios({
+                url: `/findRange/${startDate}/${endDate}`,
+                method: "GET",
+                headers: {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGFiY2U2YzkyN2E4MTA4OWRmMDdjOTYiLCJuYW1lIjoiY2FuZHJhIHNhcHV0cmEiLCJlbWFpbCI6ImNhbmRyYXNhcHV0cmFAbGl2ZS5jb20iLCJnZW5kZXIiOiJtYWxlIiwicG9pbnQiOjAsImlhdCI6MTU3MTU0MTg5M30.Ey-M7Izn0OfngaLuAvmNJ3TsLBtoPGHuGbEQJUweO_k"
+                }
+            })
+
+            await setDataTransactions(data);
+
+            await setLoading(false)
+        } catch (err) {
+            if (err.response)
+                console.log(err.response)
+            else
+                console.log(err)
+        }
+    }
+
+    useEffect(() => {
+        props.navigation.addListener(
+            'didFocus',
+            payload => {
+                getTransactionRange()
+            }
+        )
+    }, [])
+
+    useEffect(() => {
+        getTransactionRange()
+    }, [startDate, endDate])
+
+    if (loading) return <ActivityIndicator size="large" color="#E67E22" style={{ flex: 1 }} />;
+
     return (
         <View style={[style.container, { paddingTop: Constants.statusBarHeight }]}>
             <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -72,13 +108,13 @@ export default function ScanScreen() {
                 <ScrollView style={style.boxHistory}>
                     <Text style={{ color: "#52b79a", fontSize: 18, fontWeight: "bold", marginVertical: 15 }}>History</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                        {fakeExpense.map((expense, index) => {
+                        {dataTransactions.map((trx, index) => {
                             return (
                                 <View key={index} style={{ backgroundColor: "#ddebf9", width: "49%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }}>
                                     <Text style={{ paddingVertical: 5, fontWeight: 'bold' }}>12 Agus</Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Text>Expenses</Text>
-                                        <Text style={{ color: 'red', fontWeight: 'bold' }}>{expense}</Text>
+                                        <Text style={{ color: 'red', fontWeight: 'bold' }}>0</Text>
                                     </View>
                                 </View>
                             )

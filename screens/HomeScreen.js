@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { setLoginStatus } from '../redux/actions'
+import { API } from 'react-native-dotenv'
 import {
     StyleSheet,
     View,
@@ -36,6 +37,7 @@ export default function HomeScreen(props) {
         }
     }
     useEffect(() => {
+        // console.log(API)
         getToken()
     }, [])
 

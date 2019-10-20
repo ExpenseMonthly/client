@@ -1,5 +1,7 @@
 import Axios from 'axios'
-const baseURL = "http://localhost:3000"
+import { API } from 'react-native-dotenv'
+
+const baseURL = `${API}`
 
 export const UserAxios = Axios.create({
     baseURL: `${baseURL}/users`,

@@ -16,7 +16,7 @@ export default function LoginScreen(props) {
 
     useEffect(() => {
         if (isLogin) {
-            console.log(isLogin, "HOME")
+            // console.log(isLogin, "HOME")
             props.navigation.navigate('Main')
         }
     }, [])
@@ -41,6 +41,7 @@ export default function LoginScreen(props) {
             props.navigation.navigate('Main')
 
         } catch (err) {
+            await setLoading(false)
             if (err.response)
                 console.log(err.response)
             else
@@ -48,7 +49,7 @@ export default function LoginScreen(props) {
             Alert.alert("Invalid Email/Password")
         }
     }
-    if (loading) return <Text>Loading...</Text>
+    if (loading) return <Text>Loading logims...</Text>
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             <View style={{ padding: 20 }}>
@@ -69,7 +70,7 @@ export default function LoginScreen(props) {
                     secureTextEntry={true}
                 />
                 <TouchableOpacity style={styles.submitButton} onPress={handleLogin}>
-                    <Text style={styles.submitText}>LOGINs</Text>
+                    <Text style={styles.submitText}>LOGIN</Text>
                 </TouchableOpacity>
 
                 <View style={{ justifyContent: "center", alignItems: "center", padding: 20 }}>
