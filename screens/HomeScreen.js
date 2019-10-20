@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
-import { setLoginStatus } from '../redux/actions'
+import { setLoginStatus, setUser } from '../redux/actions'
 import {
     StyleSheet,
     View,
@@ -18,6 +18,7 @@ export default function HomeScreen(props) {
             const keys = await AsyncStorage.getAllKeys();
             const token = await AsyncStorage.getItem('token');
             const user = await AsyncStorage.getItem('user')
+            await dispatch(setUser(JSON.parse(user)))
             // console.log(user, " <<<<< USER ")
             // console.log(token, " <<<<< TOKEN")
         } catch (error) {
