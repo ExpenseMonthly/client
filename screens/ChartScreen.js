@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
+import { TransactionAxios } from '../constants/Utilities'
 import {
     LineChart
 } from "react-native-chart-kit";
 
 
 export default function ScanScreen() {
+    const [transactions, setTransactions] = useState([])
+    useEffect(() => {
+
+    }, [])
     const fakeExpense = [
         "70.000",
         "20.000",
