@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator, AsyncStorage } from 'react-native';
 import Constants from 'expo-constants';
 import { TransactionAxios } from '../constants/Utilities'
 import {
@@ -15,24 +15,25 @@ export default function ScanScreen(props) {
     const getTransactionRange = async () => {
         try {
             await setLoading(true)
+            const token = await AsyncStorage.getItem("token");
             const { data } = await TransactionAxios({
                 url: `/findRange/${startDate}/${endDate}`,
                 method: "GET",
-                headers: {
-                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGFiY2U2YzkyN2E4MTA4OWRmMDdjOTYiLCJuYW1lIjoiY2FuZHJhIHNhcHV0cmEiLCJlbWFpbCI6ImNhbmRyYXNhcHV0cmFAbGl2ZS5jb20iLCJnZW5kZXIiOiJtYWxlIiwicG9pbnQiOjAsImlhdCI6MTU3MTU0MTg5M30.Ey-M7Izn0OfngaLuAvmNJ3TsLBtoPGHuGbEQJUweO_k"
-                }
+                headers: { token }
             })
-
-            await setDataTransactions(data);
-
-            await setLoading(false)
+            console.log(data)
+            setDataTransactions(data);
+            setLoading(false)
+            console.log(dataTransactions, "<<<<<<")
         } catch (err) {
-            if (err.response)
-                console.log(err.response)
+            if (err.response.data)
+                console.log(err.response.data)
             else
                 console.log(err)
         }
     }
+
+
 
     useEffect(() => {
         props.navigation.addListener(
@@ -49,20 +50,6 @@ export default function ScanScreen(props) {
 
     if (loading) return <ActivityIndicator size="large" color="#E67E22" style={{ flex: 1 }} />;
 
-<<<<<<< HEAD
-=======
-export default function ScanScreen() {
-    const [transactions, setTransactions] = useState([])
-    useEffect(() => {
-
-    }, [])
-    const fakeExpense = [
-        "70.000",
-        "20.000",
-        "12.000",
-        "12.215"
-    ]
->>>>>>> env
     return (
         <View style={[style.container, { paddingTop: Constants.statusBarHeight }]}>
             <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between' }}>

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { setLoginStatus } from '../redux/actions'
-import { API } from 'react-native-dotenv'
 import {
     StyleSheet,
     View,
@@ -19,8 +18,8 @@ export default function HomeScreen(props) {
             const keys = await AsyncStorage.getAllKeys();
             const token = await AsyncStorage.getItem('token');
             const user = await AsyncStorage.getItem('user')
-            console.log(user, " <<<<< USER ")
-            console.log(token, " <<<<< TOKEN")
+            // console.log(user, " <<<<< USER ")
+            // console.log(token, " <<<<< TOKEN")
         } catch (error) {
             console.log(error)
         }
@@ -36,7 +35,6 @@ export default function HomeScreen(props) {
         }
     }
     useEffect(() => {
-        console.log(API)
         getToken()
     }, [])
 
