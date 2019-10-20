@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { FontAwesome } from '@expo/vector-icons';
+import { TransactionAxios } from '../constants/Utilities';
+// import FormData from 'form-data';
 
 export default function ScanScreen(props) {
     const [hasCameraPermission, setHasCameraPermission] = useState('granted');
@@ -33,12 +35,32 @@ export default function ScanScreen(props) {
         )
     }, []);
 
-    snap = async () => {
+    handleSnap = async () => {
         try {
             if (camera) {
-                let photo = await camera.takePictureAsync();
+                let photo = await camera.takePictureAsync({
+                    base64: true,
+                    aspect: [4, 3]
+                });
 
-                console.log(photo)
+                let token = await AsyncStorage.getItem("token");
+
+                let formData = new FormData();
+                formData.append("file", photo.base64);
+
+                const { data } = await TransactionAxios({
+                    url: '/',
+                    method: "POST",
+                    data: formData,
+                    headers: {
+                        // Accept: 'application/json',
+                        // 'Content-Type': 'multipart/form-data',
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                        "token": token,
+                    }
+                })
+
+                console.log(data)
             }
         } catch (error) {
             console.log(error)
@@ -60,7 +82,7 @@ export default function ScanScreen(props) {
                         }}>
                     </View>
 
-                    <TouchableOpacity style={styles.buttonCamera} onPress={() => snap()}>
+                    <TouchableOpacity style={styles.buttonCamera} onPress={() => handleSnap()}>
                         <FontAwesome name="camera" size={26} color='#52b79a' />
                     </TouchableOpacity>
                 </Camera>
