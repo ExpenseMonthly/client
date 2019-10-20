@@ -12,20 +12,18 @@ import {
 import UserBar from '../components/userBar';
 import { FontAwesome } from '@expo/vector-icons';
 import Constants from 'expo-constants'
-
+import { UserAxios } from '../constants/Utilities'
 export default function HomeScreen(props) {
     const dispatch = useDispatch()
-    async function getToken() {
-        try {
-            const keys = await AsyncStorage.getAllKeys();
-            const token = await AsyncStorage.getItem('token');
-            const user = await AsyncStorage.getItem('user')
-            await dispatch(setUser(JSON.parse(user)))
-            // console.log(user, " <<<<< USER ")
-            // console.log(token, " <<<<< TOKEN")
-        } catch (error) {
-            console.log(error)
-        }
+    async function getUser() {
+        const token = await AsyncStorage.getItem('token')
+        const { data } = await UserAxios({
+            url: "/",
+            method: "GET",
+            headers: { token }
+        })
+        await dispatch(setUser(data))
+
     }
     const removeToken = async () => {
         try {
@@ -38,8 +36,13 @@ export default function HomeScreen(props) {
         }
     }
     useEffect(() => {
-        // console.log(API)
-        getToken()
+        getUser()
+        props.navigation.addListener(
+            'didFocus',
+            payload => {
+                getUser()
+            }
+        )
     }, [])
 
     return (
