@@ -49,20 +49,6 @@ export default function ScanScreen(props) {
 
     if (loading) return <ActivityIndicator size="large" color="#E67E22" style={{ flex: 1 }} />;
 
-<<<<<<< HEAD
-=======
-export default function ScanScreen() {
-    const [transactions, setTransactions] = useState([])
-    useEffect(() => {
-
-    }, [])
-    const fakeExpense = [
-        "70.000",
-        "20.000",
-        "12.000",
-        "12.215"
-    ]
->>>>>>> env
     return (
         <View style={[style.container, { paddingTop: Constants.statusBarHeight }]}>
             <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between' }}>

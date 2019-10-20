@@ -36,7 +36,7 @@ export default function HomeScreen(props) {
         }
     }
     useEffect(() => {
-        console.log(API)
+        // console.log(API)
         getToken()
     }, [])
 
