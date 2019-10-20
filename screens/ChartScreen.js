@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator, AsyncStorage } from 'react-native';
 import Constants from 'expo-constants';
-import { TransactionAxios } from '../constants/Utilities'
+import { TransactionAxios, convertToRupiah, convertDate } from '../constants/Utilities'
+import DateTimePicker from "react-native-modal-datetime-picker";
 import {
     LineChart
 } from "react-native-chart-kit";
@@ -10,29 +11,43 @@ export default function ScanScreen(props) {
     const [loading, setLoading] = useState(false);
     const [startDate, setStartDate] = useState('2019-10-15');
     const [endDate, setEndDate] = useState('2019-10-22');
-    const [dataTransactions, setDataTransactions] = useState(Array);
+    const [dataTransactions, setDataTransactions] = useState([]);
+    const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState(false);
+    const showDateTimePicker = () => {
+        setIsDateTimePickerVisible(true)
+    };
 
+    const hideDateTimePicker = () => {
+        setIsDateTimePickerVisible(false)
+    };
+
+    const handleDatePicked = date => {
+        console.log("A date has been picked: ", date);
+        hideDateTimePicker();
+    };
     const getTransactionRange = async () => {
         try {
-            await setLoading(true)
+            setLoading(true)
+            const token = await AsyncStorage.getItem("token");
+            // console.log(token, "<<<< OTKEN")
             const { data } = await TransactionAxios({
                 url: `/findRange/${startDate}/${endDate}`,
                 method: "GET",
-                headers: {
-                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGFiY2U2YzkyN2E4MTA4OWRmMDdjOTYiLCJuYW1lIjoiY2FuZHJhIHNhcHV0cmEiLCJlbWFpbCI6ImNhbmRyYXNhcHV0cmFAbGl2ZS5jb20iLCJnZW5kZXIiOiJtYWxlIiwicG9pbnQiOjAsImlhdCI6MTU3MTU0MTg5M30.Ey-M7Izn0OfngaLuAvmNJ3TsLBtoPGHuGbEQJUweO_k"
-                }
+                headers: { token }
             })
-
-            await setDataTransactions(data);
-
-            await setLoading(false)
+            // console.log(data, "<<<< DATA ")
+            setDataTransactions(data);
+            setLoading(false)
         } catch (err) {
-            if (err.response)
-                console.log(err.response)
+            if (err.response.data)
+                console.log(err.response.data)
             else
                 console.log(err)
         }
     }
+
+
+
 
     useEffect(() => {
         props.navigation.addListener(
@@ -42,7 +57,9 @@ export default function ScanScreen(props) {
             }
         )
     }, [])
-
+    // useEffect(() => {
+    //     console.log(dataTransactions, "<<<<<< DATA TRANSACTION")
+    // }, [dataTransactions])
     useEffect(() => {
         getTransactionRange()
     }, [startDate, endDate])
@@ -51,53 +68,63 @@ export default function ScanScreen(props) {
 
     return (
         <View style={[style.container, { paddingTop: Constants.statusBarHeight }]}>
-            <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
-                <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity><Text style={{ color: "#ffffff", fontSize: 15, fontWeight: 'bold' }}>X</Text></TouchableOpacity>
-                    <Text style={{ color: "#ffffff", fontSize: 15, fontWeight: 'bold', marginLeft: 10 }}>Monthly Report</Text>
-                </View>
-                <TouchableOpacity><Text style={{ color: "#ffffff", fontSize: 15, fontWeight: 'bold' }}>Agust 2019</Text></TouchableOpacity>
-            </View>
+            <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-around' }}>
 
-            <LineChart
-                data={{
-                    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-                    datasets: [
-                        {
-                            data: [
-                                Math.random() * 1000,
-                                Math.random() * 1000,
-                                Math.random() * 1000,
-                                Math.random() * 1000
-                            ]
+                <TouchableOpacity title="Show DatePicker" onPress={showDateTimePicker}>
+                    <Text>{startDate}</Text>
+                </TouchableOpacity>
+                <Text>-</Text>
+                <TouchableOpacity title="Show DatePicker" onPress={showDateTimePicker}>
+                    <Text>{endDate}</Text>
+                </TouchableOpacity>
+                <DateTimePicker
+                    isVisible={isDateTimePickerVisible}
+                    onConfirm={handleDatePicked}
+                    onCancel={hideDateTimePicker}
+                />
+                {/* <TouchableOpacity><Text style={{ color: "#ffffff", fontSize: 15, fontWeight: 'bold' }}>Agust 2019</Text></TouchableOpacity> */}
+            </View>
+            <View style={{ witdh: "100%", paddingHorizontal: 20, justifyContent: "center", alignContent: "center" }}>
+
+                <LineChart
+                    data={{
+                        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+                        datasets: [
+                            {
+                                data: [
+                                    Math.random() * 1000,
+                                    Math.random() * 1000,
+                                    Math.random() * 1000,
+                                    Math.random() * 1000
+                                ]
+                            }
+                        ]
+                    }}
+                    width={Dimensions.get("window").width}
+                    height={190}
+                    chartConfig={{
+                        backgroundColor: "#52b79a",
+                        backgroundGradientFrom: "#2ec79c",
+                        backgroundGradientTo: "#2ec79c",
+                        decimalPlaces: 2,
+                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        style: {
+                            borderRadius: 16
+                        },
+                        propsForDots: {
+                            r: "4",
+                            strokeWidth: "2",
+                            stroke: "#212120"
                         }
-                    ]
-                }}
-                width={Dimensions.get("window").width} // from react-native
-                height={190}
-                yAxisLabel={"Rp"}
-                chartConfig={{
-                    backgroundColor: "#52b79a",
-                    backgroundGradientFrom: "#2ec79c",
-                    backgroundGradientTo: "#2ec79c",
-                    decimalPlaces: 2,
-                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                    style: {
+                    }}
+                    bezier
+                    style={{
+                        marginVertical: 8,
                         borderRadius: 16
-                    },
-                    propsForDots: {
-                        r: "4",
-                        strokeWidth: "2",
-                        stroke: "#212120"
-                    }
-                }}
-                bezier
-                style={{
-                    marginVertical: 8,
-                    borderRadius: 16
-                }}
-            />
+                    }}
+                />
+            </View>
 
             <View style={style.box}>
                 <View style={style.bexExpenses}>
@@ -107,23 +134,22 @@ export default function ScanScreen(props) {
 
                 <ScrollView style={style.boxHistory}>
                     <Text style={{ color: "#52b79a", fontSize: 18, fontWeight: "bold", marginVertical: 15 }}>History</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                        {dataTransactions.map((trx, index) => {
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', paddingBottom: 350 }}>
+                        {dataTransactions.map((transaction, index) => {
                             return (
-                                <View key={index} style={{ backgroundColor: "#ddebf9", width: "49%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }}>
-                                    <Text style={{ paddingVertical: 5, fontWeight: 'bold' }}>12 Agus</Text>
+                                <View key={index} style={{ backgroundColor: "#ddebf9", width: "100%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }}>
+                                    <Text style={{ paddingVertical: 5, fontWeight: 'bold' }}>{convertDate(transaction.date)}</Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Text>Expenses</Text>
-                                        <Text style={{ color: 'red', fontWeight: 'bold' }}>0</Text>
+                                        <Text style={{ color: 'red', fontWeight: 'bold' }}>{convertToRupiah(transaction.total)}</Text>
                                     </View>
                                 </View>
                             )
                         })}
-
                     </View>
                 </ScrollView>
             </View>
-        </View>
+        </View >
     )
 
 }
@@ -150,6 +176,7 @@ const style = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingHorizontal: 30,
-        paddingTop: 10
+        paddingTop: 10,
+
     }
 });
