@@ -35,10 +35,7 @@ export default function HomeScreen(props) {
         }
     }
     useEffect(() => {
-<<<<<<< HEAD
-=======
         // console.log(API)
->>>>>>> 9068f5f8bb604bfddd6f11b16ac2bfaa597131dd
         getToken()
     }, [])
 
