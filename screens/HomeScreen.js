@@ -6,9 +6,10 @@ import {
     View,
     AsyncStorage,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Image,
 } from 'react-native';
-
+import { FontAwesome } from '@expo/vector-icons';
 import Constants from 'expo-constants'
 
 export default function HomeScreen(props) {
@@ -40,7 +41,19 @@ export default function HomeScreen(props) {
 
     return (
         <View style={styles.container}>
-            <Text>Home</Text>
+            <View style={styles.userBox}>
+                <View style={{ justifyContent: 'space-between', width: "70%", height: 90 }}>
+                    <Text style={{ fontSize: 25, fontWeight: "bold", borderBottomColor: '#2ec79c', borderBottomWidth: 3 }}>Admin</Text>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <FontAwesome name="cog" size={15} />
+                        <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: 5 }}>Profile Settings</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <Image source={require('../assets/images/male.png')}></Image>
+                </View>
+                {/* <Image source={require('../assets/images/female.png')}></Image> */}
+            </View>
             <TouchableOpacity onPress={removeToken}><Text>Logout</Text></TouchableOpacity>
         </View>
     );
@@ -54,6 +67,15 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: Constants.statusBarHeight,
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#2ec79c',
     },
+    userBox: {
+        backgroundColor: '#fff',
+        margin: 20,
+        borderRadius: 5,
+        padding: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    }
 });
