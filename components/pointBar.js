@@ -10,16 +10,17 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
+import { withNavigation } from 'react-navigation'
 import { FontAwesome } from '@expo/vector-icons';
 
-export default function pointBar(props) {
+function PointBar(props) {
     return (
         <View style={styles.pointBar}>
             <View style={{ flexDirection: 'row', padding: 10, justifyContent: "space-around", alignItems: 'center' }}>
                 <Image source={require('../assets/images/coin.png')} style={{ width: 50, height: 50 }}></Image>
                 <Text style={{ fontSize: 45, fontWeight: 'bold' }}>99</Text>
             </View>
-            <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10 }}>
+            <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10 }} onPress={() => props.navigation.navigate('Game')} >
                 <View>
                     <Text style={{ fontSize: 30, color: '#fff', fontWeight: 'bold' }}>
                         Playgame
@@ -49,3 +50,5 @@ const styles = StyleSheet.create({
         elevation: 5,
     }
 });
+
+export default withNavigation(PointBar)
