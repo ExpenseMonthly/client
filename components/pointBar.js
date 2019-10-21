@@ -20,7 +20,7 @@ function PointBar(props) {
                 <Image source={require('../assets/images/coin.png')} style={{ width: 50, height: 50 }}></Image>
                 <Text style={{ fontSize: 45, fontWeight: 'bold' }}>{props.point}</Text>
             </View>
-            <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10 }} onPress={() => props.navigation.navigate('Game')} >
+            <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10, borderTopRightRadius: 5, borderBottomRightRadius: 5 }} onPress={() => props.navigation.navigate('Game')} >
                 <View>
                     <Text style={{ fontSize: 30, color: '#fff', fontWeight: 'bold' }}>
                         Playgame
