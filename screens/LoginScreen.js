@@ -13,13 +13,19 @@ export default function LoginScreen(props) {
     const dispatch = useDispatch();
     const isLogin = useSelector(state => state.user.isLogin)
 
-
+    const checkToken = async () => {
+        const token = await AsyncStorage.getItem('token');
+        // console.log(token, "<<<< TOKEN")
+        if (token)
+            await dispatch(setLoginStatus(true))
+    }
     useEffect(() => {
-        if (isLogin) {
-            // console.log(isLogin, "HOME")
+        checkToken()
+        console.log("is Login?", isLogin)
+        if (isLogin)
             props.navigation.navigate('Main')
-        }
-    }, [])
+
+    }, [isLogin])
 
     const handleLogin = async () => {
         try {
