@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import CodeInput from 'react-native-confirmation-code-field';
 
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, KeyboardAvoidingView, Alert } from 'react-native'
 import Loading from '../components/Loading'
 import ExpoConstants from 'expo-constants'
 import Color from '../constants/Colors'
@@ -9,11 +9,20 @@ import { Ionicons } from '@expo/vector-icons'
 function GameScreen(props) {
     const [number, setNumber] = useState(null)
     const [show, setShow] = useState(false)
-    const [timer, setTimer] = useState(5)
-    const [answer, setAnswer] = useState('0000')
+    const [moveLeft, setMoveLeft] = useState(3)
+    const [finished, setFinished] = useState(false)
+    const [trueAnswer, setTrueAnswer] = useState(0)
     const field = useRef()
     const handlerOnFulfill = code => {
-        console.log(code);
+        if (code == number) {
+            Alert.alert('Nice one!')
+            setTrueAnswer(trueAnswer + 1)
+        } else {
+            Alert.alert('Wrong answer! XD')
+        }
+
+        setMoveLeft(moveLeft - 1)
+        setShow(false)
         const { current } = field
         current.clear()
     };
@@ -30,25 +39,30 @@ function GameScreen(props) {
             }
         )
     }, [])
+    useEffect(() => {
+        if (moveLeft <= 0) {
+            setFinished(true)
+            Alert.alert("Game Finsihed");
+            props.navigation.goBack()
+        }
+    }, [moveLeft])
 
     if (!number) return <Loading />
     else
         return (
             <KeyboardAvoidingView style={styles.container}>
                 <TouchableOpacity onPress={() => props.navigation.goBack()}><Ionicons name="ios-arrow-back" size={40} color="white" /></TouchableOpacity>
+                <Text>Move Left {moveLeft}</Text>
+                <Text>True Answer {trueAnswer}</Text>
+                <Text>Game status {finished ? "finished" : "playing"}</Text>
                 <View style={styles.gameContainer}>
                     {show && <Text style={styles.number}>{number}</Text>}
-                    <TouchableOpacity onPress={handlePlay}><Text>Play</Text></TouchableOpacity>
+                    {show ?
+                        <CodeInput ref={field} onFulfill={handlerOnFulfill} /> :
+                        <TouchableOpacity onPress={handlePlay}><Text>Play</Text></TouchableOpacity>
+                    }
                 </View>
 
-                <CodeInput ref={field} onFulfill={handlerOnFulfill} />
-
-                <TextInput
-                    style={styles.input}
-                    onChangeText={text => setAnswer(text)}
-                    value={answer}
-                    keyboardType="numeric"
-                />
 
 
             </KeyboardAvoidingView>

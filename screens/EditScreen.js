@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, Modal, TextInput, AsyncStorage, Alert, Image } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, Modal, TextInput, AsyncStorage, Alert, Image, KeyboardAvoidingView } from 'react-native'
 import Color from '../constants/Colors'
 import ExpoConstant from 'expo-constants'
 import Loading from '../components/Loading'
@@ -14,6 +14,10 @@ function EditScreen(props) {
     const [itemQty, setItemQty] = useState(null)
     const [itemPrice, setItemPrice] = useState(0)
     const [itemIndex, setItemIndex] = useState(null)
+    const [addName, setAddName] = useState(null)
+    const [addQty, setAddQty] = useState(0)
+    const [addPrice, setAddPrice] = useState(0)
+    const [isEdit, setIsEdit] = useState(true)
     // const [editTransaction, setEditTransaction] = useState(null)
 
     const setEditItem = (index) => {
@@ -28,6 +32,7 @@ function EditScreen(props) {
         // setEditTransaction(newTransaction)
         // newTransaction.items[index].name = "GANTI"
         setEditItem(index)
+        setIsEdit(true)
         setModalVisible(true)
 
         // setTransaction(newTransaction)
@@ -50,6 +55,12 @@ function EditScreen(props) {
     const reset = () => {
         setTransaction(props.navigation.state.params.transaction)
     }
+    const resetAddField = () => {
+        setAddName(null)
+        setAddQty(0)
+        setAddPrice(0)
+        setIsEdit(true)
+    }
     const save = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -70,7 +81,19 @@ function EditScreen(props) {
         }
     }
     const add = () => {
-
+        setIsEdit(false)
+        setModalVisible(true)
+    }
+    const addItem = () => {
+        let newTransaction = _.cloneDeep(transaction)
+        newTransaction.items.push({
+            name: addName,
+            qty: addQty,
+            price: addPrice
+        })
+        setTransaction(newTransaction)
+        setModalVisible(false)
+        resetAddField()
     }
     if (!transaction) return <Loading />
     return (
@@ -110,37 +133,82 @@ function EditScreen(props) {
                 <View style={styles.modalContainer}>
                     <TouchableOpacity style={{ width: "100%", height: "100%", backgroundColor: "black", opacity: 0.5 }} onPress={() => setModalVisible(false)} />
                     <View style={{ position: "absolute", width: '90%', height: "80%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
-                        <TouchableOpacity style={{ height: 50, alignItems: "flex-end", padding: 10 }} onPress={() => setModalVisible(false)}>
-                            <FontAwesome name="close" size={30} color="#d9d9d9" />
-                        </TouchableOpacity>
-                        <View style={{ justifyContent: "center", alignItems: "center" }}>
-                            <Text style={styles.header}>Edit Transaction</Text>
-                            <Image
-                                style={{ width: 300, height: 300 }}
-                                source={require('../assets/images/edit.png')}
-                            />
-                        </View>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setItemName(text)}
-                            value={itemName}
-                            placeholder="item name"
-                        />
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setItemQty(text)}
-                            value={itemQty}
-                            placeholder="item qty"
-                        />
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setItemPrice(text)}
-                            value={itemPrice}
-                            placeholder="item price"
-                        />
-                        <TouchableHighlight onPress={handleEditSave} style={styles.submitButton}>
-                            <Text style={{ fontSize: 20, color: "white" }}>Look's Good</Text>
-                        </TouchableHighlight>
+                        {isEdit &&
+                            <>
+                                <TouchableOpacity style={{ height: 50, alignItems: "flex-end", padding: 10 }} onPress={() => setModalVisible(false)}>
+                                    <FontAwesome name="close" size={30} color="#d9d9d9" />
+                                </TouchableOpacity>
+                                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                    <Text style={styles.header}>Edit Transaction</Text>
+                                    <Image
+                                        style={{ width: 300, height: 300 }}
+                                        source={require('../assets/images/edit.png')}
+                                    />
+                                </View>
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={text => setItemName(text)}
+                                    value={itemName}
+                                    placeholder="item name"
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={text => setItemQty(text)}
+                                    value={itemQty}
+                                    placeholder="item qty"
+                                    keyboardType="numeric"
+
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={text => setItemPrice(text)}
+                                    value={itemPrice}
+                                    placeholder="item price"
+                                    keyboardType="numeric"
+                                />
+                                <TouchableHighlight onPress={handleEditSave} style={styles.submitButton}>
+                                    <Text style={{ fontSize: 20, color: "white" }}>Look's Good</Text>
+                                </TouchableHighlight>
+                            </>
+                        }
+                        {!isEdit &&
+                            <>
+                                <TouchableOpacity style={{ height: 50, alignItems: "flex-end", padding: 10 }} onPress={() => setModalVisible(false)}>
+                                    <FontAwesome name="close" size={30} color="#d9d9d9" />
+                                </TouchableOpacity>
+
+                                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                    <Text style={styles.header}>Add Item</Text>
+                                    <Image
+                                        style={{ width: 300, height: 300 }}
+                                        source={require('../assets/images/add.png')}
+                                    />
+                                </View>
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={text => setAddName(text)}
+                                    value={setAddName}
+                                    placeholder="item name"
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={text => setAddQty(text)}
+                                    value={addQty}
+                                    placeholder="item qty"
+                                    keyboardType="numeric"
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={text => setAddPrice(text)}
+                                    value={addPrice}
+                                    placeholder="item price"
+                                    keyboardType="numeric"
+                                />
+                                <TouchableHighlight onPress={addItem} style={styles.submitButton}>
+                                    <Text style={{ fontSize: 20, color: "white" }}>Add Item</Text>
+                                </TouchableHighlight>
+                            </>
+                        }
                     </View>
                 </View>
             </Modal>
