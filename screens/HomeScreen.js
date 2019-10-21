@@ -32,7 +32,6 @@ function HomeScreen(props) {
             headers: { token }
         })
         await dispatch(setUser(data))
-
     }
     const removeToken = async () => {
         try {
@@ -58,25 +57,15 @@ function HomeScreen(props) {
     else
         return (
             <View style={styles.container}>
-                <GreetBar />
-                <PointBar />
-
-                {/* <View style={styles.pointBar}>
-                    <View style={{ flexDirection: 'row', padding: 10, justifyContent: "space-around", alignItems: 'center' }}>
-                        <Image source={require('../assets/images/coin.png')} style={{ width: 50, height: 50 }}></Image>
-                        <Text style={{ fontSize: 45, fontWeight: 'bold' }}>{user.point}</Text>
-                    </View>
-                    <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10 }}>
-                        <View>
-                            <Text style={{ fontSize: 30, color: '#fff', fontWeight: 'bold' }}>Playgame</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View> */}
+                <GreetBar user={user} />
+                <PointBar point={user.point}/>
                 <UserBar user={user} />
-                <View style={styles.adsBar}>
-                    <ImageBackground style={styles.adsCard}>
+                <View>
+                    <ScrollView nestedScrollEnabled={true} horizontal={true} style={{ height: 270 }} showsHorizontalScrollIndicator={false}>
+                        <ImageBackground style={styles.adsCard}>
 
-                    </ImageBackground>
+                        </ImageBackground>
+                    </ScrollView>
                 </View>
                 <TouchableOpacity onPress={removeToken}><Text>Logout</Text></TouchableOpacity>
             </View>

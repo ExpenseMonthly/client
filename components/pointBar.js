@@ -17,7 +17,7 @@ export default function pointBar(props) {
         <View style={styles.pointBar}>
             <View style={{ flexDirection: 'row', padding: 10, justifyContent: "space-around", alignItems: 'center' }}>
                 <Image source={require('../assets/images/coin.png')} style={{ width: 50, height: 50 }}></Image>
-                <Text style={{ fontSize: 45, fontWeight: 'bold' }}>99</Text>
+                <Text style={{ fontSize: 45, fontWeight: 'bold' }}>{props.point}</Text>
             </View>
             <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10 }}>
                 <View>
