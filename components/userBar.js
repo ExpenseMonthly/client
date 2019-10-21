@@ -29,11 +29,6 @@ export default withNavigation((props) => {
             }
         })
         setName(result);
-<<<<<<< HEAD
-=======
-
-
->>>>>>> add point bar greet bar ads
     }
     useEffect(() => {
         getUser();
@@ -41,21 +36,9 @@ export default withNavigation((props) => {
     return (
         <View style={styles.userBox}>
             <View style={{ justifyContent: 'space-between', width: "70%", height: 90 }}>
-<<<<<<< HEAD
                 <Text style={{ fontSize: 20, fontWeight: "bold", borderBottomColor: '#2ec79c', borderBottomWidth: 3, textTransform: "capitalize" }}>
                     {name}</Text>
                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
-=======
-                <Text style={{ fontSize: 20, fontWeight: "bold", borderBottomColor: '#2ec79c', borderBottomWidth: 3 }}>
-                    {name}</Text>
-                <TouchableOpacity
-                    style={{ flexDirection: 'row', alignItems: 'center' }}
-                    onPress={() => {
-                        // console.log(props.navigation);
-                        props.navigation.navigate('EditProfile');
-                    }}
-                >
->>>>>>> add point bar greet bar ads
                     <FontAwesome name="cog" size={15} />
                     <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: 5 }}>Profile Settings</Text>
                 </TouchableOpacity>
