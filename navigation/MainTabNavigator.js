@@ -9,17 +9,23 @@ import HomeScreen from '../screens/HomeScreen';
 import ScanScreen from '../screens/ScanScreen';
 import ChartScreen from '../screens/ChartScreen';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
 import TransactionDetailScreen from '../screens/TransactionDetailScreen';
 >>>>>>> edit
 import ScanEditScreen from '../screens/ScanEditScreen';
 import EditScreen from '../screens/EditScreen';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import TransactionDetailScreen from '../screens/TransactionDetailScreen'
 import EditScreen from '../screens/EditScreen'
 =======
 >>>>>>> edit
+=======
+>>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
 const config = Platform.select({
     web: { headerMode: 'screen' },
     default: { headerMode: 'none' },
