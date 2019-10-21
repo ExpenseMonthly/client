@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, Modal, TextInput } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, Modal, TextInput, AsyncStorage, Alert, Image } from 'react-native'
 import Color from '../constants/Colors'
 import ExpoConstant from 'expo-constants'
 import Loading from '../components/Loading'
-import { convertToRupiah, convertDate } from '../constants/Utilities'
+import { convertToRupiah, convertDate, TransactionAxios } from '../constants/Utilities'
+import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import * as _ from 'lodash'
+import { ScrollView } from 'react-native-gesture-handler';
 function EditScreen(props) {
     const [transaction, setTransaction] = useState(props.navigation.state.params.transaction);
     const [modalVisible, setModalVisible] = useState(false)
@@ -31,13 +33,12 @@ function EditScreen(props) {
         // setTransaction(newTransaction)
     }
 
-    const handleSave = () => {
+    const handleEditSave = () => {
         let newTransaction = _.cloneDeep(transaction)
         newTransaction.items[itemIndex].name = itemName
         newTransaction.items[itemIndex].qty = itemQty
         newTransaction.items[itemIndex].price = itemPrice
         setTransaction(newTransaction)
-
         setModalVisible(false)
     }
     const deleteItem = (index) => () => {
@@ -49,29 +50,57 @@ function EditScreen(props) {
     const reset = () => {
         setTransaction(props.navigation.state.params.transaction)
     }
+    const save = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const { data } = await TransactionAxios({
+                method: "PATCH",
+                url: `/${transaction._id}`,
+                headers: { token },
+                data: transaction
+            })
+            Alert.alert("Update Success", "Your data successfully updated!")
+            props.navigation.goBack()
+        } catch (error) {
+            if (error.response.data.message)
+                Alert.alert(error.response.data.message[0])
+            else
+                Alert.alert("Opps.. something gone wrong! please reload")
+            console.log(error.response)
+        }
+    }
+    const add = () => {
+
+    }
     if (!transaction) return <Loading />
     return (
         <>
             <View style={styles.container}>
-                <Text style={styles.tip}>Purchased on: </Text>
-                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%", height: 40 }}>
-                    <Text style={styles.date}>{convertDate(transaction.date)}  </Text>
-                </View>
-                {transaction.items.map((item, index) => {
-                    return (
-                        <View style={styles.editBox} key={index}>
-                            <Text style={styles.name}>{item.name}</Text>
-                            <Text style={styles.qty}>Qty : {item.qty}</Text>
-                            <Text style={styles.price}>Rp {convertToRupiah(item.price)}</Text>
-                            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
-                                <TouchableOpacity onPress={editItem(index)}><Text>Edit</Text></TouchableOpacity>
-                                <TouchableOpacity onPress={deleteItem(index)}><Text>Delete</Text></TouchableOpacity>
+                <ScrollView>
+                    <TouchableOpacity onPress={() => props.navigation.goBack()}><Ionicons name="ios-arrow-back" size={40} color="white" /></TouchableOpacity>
+                    <Text style={styles.tip}>Purchased on: </Text>
+                    <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%", height: 40 }}>
+                        <Text style={styles.date}>{convertDate(transaction.date)}  </Text>
+                    </View>
+                    {transaction.items.map((item, index) => {
+                        return (
+                            <View style={styles.editBox} key={index}>
+                                <Text style={styles.name}>{item.name}</Text>
+                                <Text style={styles.qty}>Qty : {item.qty}</Text>
+                                <Text style={styles.price}>Rp {convertToRupiah(item.price)}</Text>
+                                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
+                                    <TouchableOpacity onPress={editItem(index)} style={styles.editButton}><FontAwesome name="edit" size={20} /></TouchableOpacity>
+                                    <TouchableOpacity onPress={deleteItem(index)} style={styles.deleteButton}><FontAwesome name="trash" size={20} /></TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
-                    )
-                })}
-
-                <TouchableOpacity onPress={reset} style={styles.resetButton}><Text>Reset</Text></TouchableOpacity>
+                        )
+                    })}
+                    <View style={{ flexDirection: "row", justifyContent: "space-around", height: 50, alignItems: "center" }}>
+                        <TouchableOpacity onPress={reset} style={styles.button}><FontAwesome name="undo" size={30} color="white" /></TouchableOpacity>
+                        <TouchableOpacity onPress={add} style={styles.button}><FontAwesome name="plus" size={30} color="white" /></TouchableOpacity>
+                        <TouchableOpacity onPress={save} style={styles.button}><FontAwesome name="save" size={30} color="white" /></TouchableOpacity>
+                    </View>
+                </ScrollView>
             </View >
             <Modal
                 animationType="fade"
@@ -81,27 +110,34 @@ function EditScreen(props) {
                 <View style={styles.modalContainer}>
                     <TouchableOpacity style={{ width: "100%", height: "100%", backgroundColor: "black", opacity: 0.5 }} onPress={() => setModalVisible(false)} />
                     <View style={{ paddingTop: ExpoConstant.statusBarHeight, position: "absolute", width: '90%', height: "80%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
+                        <View style={{ justifyContent: "center", alignItems: "center" }}>
 
+                            <Text style={styles.header}>Edit Transaction</Text>
+                            <Image
+                                style={{ width: 300, height: 300 }}
+                                source={require('../assets/images/edit.png')}
+                            />
+                        </View>
                         <TextInput
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                            style={styles.input}
                             onChangeText={text => setItemName(text)}
                             value={itemName}
                             placeholder="item name"
                         />
                         <TextInput
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                            style={styles.input}
                             onChangeText={text => setItemQty(text)}
                             value={itemQty}
                             placeholder="item qty"
                         />
                         <TextInput
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                            style={styles.input}
                             onChangeText={text => setItemPrice(text)}
                             value={itemPrice}
                             placeholder="item price"
                         />
-                        <TouchableHighlight onPress={handleSave}>
-                            <Text>Look's Good</Text>
+                        <TouchableHighlight onPress={handleEditSave} style={styles.submitButton}>
+                            <Text style={{ fontSize: 20, color: "white" }}>Look's Good</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -148,10 +184,9 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textTransform: "uppercase"
     },
-    resetButton: {
+    button: {
         paddingHorizontal: 10,
         paddingVertical: 5,
-        backgroundColor: "green"
     },
     date: {
         fontSize: 30,
@@ -164,5 +199,39 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 20
     },
+    editButton: {
+        padding: 10,
+    },
+    deleteButton: {
+        padding: 10
+    },
+    input: {
+        backgroundColor: Color.mainColor,
+        justifyContent: "center",
+        marginHorizontal: 20,
+        marginVertical: 10,
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        color: "white"
+    },
+    header: {
+        textAlign: "center",
+        fontSize: 30,
+        fontWeight: "bold",
+        color: Color.mainColor
+    },
+    submitButton: {
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+        backgroundColor: Color.mainColor,
+        paddingVertical: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10
+    }
+
 })
 export default EditScreen
