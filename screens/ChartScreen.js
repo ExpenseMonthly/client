@@ -3,6 +3,7 @@ import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, Activ
 import Constants from 'expo-constants';
 import { TransactionAxios, convertToRupiah, convertDate } from '../constants/Utilities'
 import DateTimePicker from "react-native-modal-datetime-picker";
+import Loading from '../components/Loading'
 import {
     LineChart
 } from "react-native-chart-kit";
@@ -66,7 +67,7 @@ export default function ScanScreen(props) {
         getTransactionRange()
     }, [startDate, endDate])
 
-    if (loading) return <ActivityIndicator size="large" color="#E67E22" style={{ flex: 1 }} />;
+    if (loading) return <Loading />
 
     return (
         <View style={[style.container, { paddingTop: Constants.statusBarHeight }]}>

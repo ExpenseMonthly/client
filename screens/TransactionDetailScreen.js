@@ -1,16 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, AsyncStorage } from 'react-native'
 import ExpoConstants from 'expo-constants'
 import Color from '../constants/Colors'
 
-import { convertDate, convertToRupiah } from '../constants/Utilities'
+import { convertDate, convertToRupiah, TransactionAxios } from '../constants/Utilities'
 
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 function TransactionDetail(props) {
     const { transaction } = props.navigation.state.params;
 
-    const deleteTransaction = () => {
-        console.log("DELETE TRANSACTION  ", transaction._id)
+    const deleteTransaction = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token')
+            const { data } = await TransactionAxios({
+                method: "DELETE",
+                url: `/${transaction._id}`,
+                headers: { token }
+            })
+            Alert.alert("Delete Data Success")
+            props.navigation.goBack()
+        } catch (error) {
+            if (error.response.data.message)
+                Alert.alert(error.response.data.message[0])
+            else
+                Alert.alert("Oppss.. something happend please reload")
+        }
     }
     const handleDelete = () => {
         Alert.alert(
