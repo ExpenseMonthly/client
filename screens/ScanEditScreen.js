@@ -7,6 +7,7 @@ import { convertToRupiah, convertDate, TransactionAxios } from '../constants/Uti
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import * as _ from 'lodash'
 import { ScrollView } from 'react-native-gesture-handler';
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 export default (props) => {
     const [transaction, setTransaction] = useState(props.navigation.state.params.data);
@@ -15,7 +16,15 @@ export default (props) => {
     const [itemQty, setItemQty] = useState(null)
     const [itemPrice, setItemPrice] = useState(0)
     const [itemIndex, setItemIndex] = useState(null)
-    // const [editTransaction, setEditTransaction] = useState(null)
+    const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState(false);
+
+    const showDateTimePicker = () => {
+        setIsDateTimePickerVisible(true)
+    };
+
+    const hideDateTimePicker = () => {
+        setIsDateTimePickerVisible(false)
+    };
 
     const setEditItem = (index) => {
         setItemName(transaction.items[index].name)
@@ -23,8 +32,19 @@ export default (props) => {
         setItemPrice(String(transaction.items[index].price))
         setItemIndex(index)
     }
-    const editItem = (index) => () => {
 
+    const handleDatePicked = date => {
+        console.log("A date has been picked: ", date);
+
+        setTransaction({
+            ...transaction,
+            date
+        })
+
+        hideDateTimePicker();
+    };
+
+    const editItem = (index) => () => {
         // let newTransaction = _.cloneDeep(transaction)
         // setEditTransaction(newTransaction)
         // newTransaction.items[index].name = "GANTI"
@@ -42,37 +62,47 @@ export default (props) => {
         setTransaction(newTransaction)
         setModalVisible(false)
     }
+
     const deleteItem = (index) => () => {
         let newTransaction = _.cloneDeep(transaction)
         newTransaction.items.splice(index, 1)
 
         setTransaction(newTransaction)
     }
+
     const reset = () => {
-        setTransaction(props.navigation.state.params.transaction)
+        setTransaction(props.navigation.state.params.data)
     }
+
     const save = async () => {
-        try {
-            const token = await AsyncStorage.getItem('token');
-            const { data } = await TransactionAxios({
-                method: "PATCH",
-                url: `/${transaction._id}`,
-                headers: { token },
-                data: transaction
-            })
-            Alert.alert("Update Success", "Your data successfully updated!")
-            props.navigation.goBack()
-        } catch (error) {
-            if (error.response.data.message)
-                Alert.alert(error.response.data.message[0])
-            else
-                Alert.alert("Opps.. something gone wrong! please reload")
-            console.log(error.response)
+        if(!transaction.date) {
+            Alert.alert("Date not valid!")            
+        } else {
+            try {
+                const token = await AsyncStorage.getItem('token');
+                const { data } = await TransactionAxios({
+                    method: "POST",
+                    url: `/receipt`,
+                    headers: { token },
+                    data: transaction
+                });
+    
+                Alert.alert("Update Success", "Your data successfully updated!")
+                props.navigation.goBack()
+            } catch (error) {
+                if (error.response.data.message)
+                    Alert.alert(error.response.data.message[0])
+                else
+                    Alert.alert("Opps.. something gone wrong! please reload")
+                console.log(error.response)
+            }
         }
     }
+
     const add = () => {
 
     }
+
     if (!transaction) return <Loading />
     return (
         <>
@@ -81,7 +111,9 @@ export default (props) => {
                     <TouchableOpacity onPress={() => props.navigation.goBack()}><Ionicons name="ios-arrow-back" size={40} color="white" /></TouchableOpacity>
                     <Text style={styles.tip}>Purchased on: </Text>
                     <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%", height: 40 }}>
+                    <TouchableOpacity title="Show DatePicker" onPress={showDateTimePicker}>
                         <Text style={styles.date}>{convertDate(transaction.date)}  </Text>
+                    </TouchableOpacity>
                     </View>
                     {transaction.items.map((item, index) => {
                         return (
@@ -102,6 +134,12 @@ export default (props) => {
                         <TouchableOpacity onPress={save} style={styles.button}><FontAwesome name="save" size={30} color="white" /></TouchableOpacity>
                     </View>
                 </ScrollView>
+                
+                <DateTimePicker
+                    isVisible={isDateTimePickerVisible}
+                    onConfirm={handleDatePicked}
+                    onCancel={hideDateTimePicker}
+                />
             </View >
             <Modal
                 animationType="fade"
@@ -110,42 +148,46 @@ export default (props) => {
             >
                 <View style={styles.modalContainer}>
                     <TouchableOpacity style={{ width: "100%", height: "100%", backgroundColor: "black", opacity: 0.5 }} onPress={() => setModalVisible(false)} />
-                    <View style={{ paddingTop: ExpoConstant.statusBarHeight, position: "absolute", width: '90%', height: "80%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
-                        <View style={{ justifyContent: "center", alignItems: "center" }}>
+                    <View style={{ paddingTop: ExpoConstant.statusBarHeight, position: "absolute", width: '90%', height: "70%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
+                        <ScrollView>
 
-                            <Text style={styles.header}>Edit Transaction</Text>
-                            <Image
-                                style={{ width: 300, height: 300 }}
-                                source={require('../assets/images/edit.png')}
+                            <View style={{ justifyContent: "center", alignItems: "center" }}>
+
+                                <Text style={styles.header}>Edit Transaction</Text>
+                                <Image
+                                    style={{ width: 300, height: 300 }}
+                                    source={require('../assets/images/edit.png')}
+                                />
+                            </View>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={text => setItemName(text)}
+                                value={itemName}
+                                placeholder="item name"
                             />
-                        </View>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setItemName(text)}
-                            value={itemName}
-                            placeholder="item name"
-                        />
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setItemQty(text)}
-                            value={itemQty}
-                            placeholder="item qty"
-                        />
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setItemPrice(text)}
-                            value={itemPrice}
-                            placeholder="item price"
-                        />
-                        <TouchableHighlight onPress={handleEditSave} style={styles.submitButton}>
-                            <Text style={{ fontSize: 20, color: "white" }}>Look's Good</Text>
-                        </TouchableHighlight>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={text => setItemQty(text)}
+                                value={itemQty}
+                                placeholder="item qty"
+                            />
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={text => setItemPrice(text)}
+                                value={itemPrice}
+                                placeholder="item price"
+                            />
+                            <TouchableHighlight onPress={handleEditSave} style={styles.submitButton}>
+                                <Text style={{ fontSize: 20, color: "white" }}>Look's Good</Text>
+                            </TouchableHighlight>
+                        </ScrollView>
                     </View>
                 </View>
             </Modal>
         </>
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         paddingTop: ExpoConstant.statusBarHeight,
@@ -223,8 +265,8 @@ const styles = StyleSheet.create({
         color: Color.mainColor
     },
     submitButton: {
-        position: "absolute",
-        bottom: 0,
+        // position: "absolute",
+        // bottom: 0,
         width: "100%",
         backgroundColor: Color.mainColor,
         paddingVertical: 20,
