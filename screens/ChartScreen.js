@@ -47,7 +47,9 @@ export default function ScanScreen(props) {
     }
 
 
-
+    const handleViewMore = (transaction) => () => {
+        props.navigation.navigate('TransactionDetail', { transaction })
+    }
 
     useEffect(() => {
         props.navigation.addListener(
@@ -137,13 +139,13 @@ export default function ScanScreen(props) {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', paddingBottom: 350 }}>
                         {dataTransactions.map((transaction, index) => {
                             return (
-                                <View key={index} style={{ backgroundColor: "#ddebf9", width: "100%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }}>
+                                <TouchableOpacity key={index} style={{ backgroundColor: "#ddebf9", width: "100%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }} onPress={handleViewMore(transaction)}>
                                     <Text style={{ paddingVertical: 5, fontWeight: 'bold' }}>{convertDate(transaction.date)}</Text>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Text>Expenses</Text>
-                                        <Text style={{ color: 'red', fontWeight: 'bold' }}>{convertToRupiah(transaction.total)}</Text>
+                                        <Text style={{ color: 'red', fontWeight: 'bold' }}>Rp {convertToRupiah(transaction.total)}</Text>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             )
                         })}
                     </View>
