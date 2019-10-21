@@ -28,3 +28,12 @@ export const convertDate = (dateFormat) => {
     const year = convertedDate.getFullYear();
     return `${day}, ${date} ${month} ${year}`
 }
+
+export const convertMonthYear = (dateFormat) => {
+    const monthArray = ["Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    const convertedDate = new Date(dateFormat)
+    
+    const month = monthArray[convertedDate.getMonth()];
+    const year = convertedDate.getFullYear();
+    return `${month} ${year}`
+}
