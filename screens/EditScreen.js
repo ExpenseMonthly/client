@@ -216,9 +216,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginVertical: 10,
         borderRadius: 10,
-        paddingVertical: 10,
+        paddingVertical: 5,
         paddingHorizontal: 20,
-        color: "white"
+        color: "white",
+        width : "80%"
     },
     header: {
         textAlign: "center",

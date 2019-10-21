@@ -137,7 +137,7 @@ export default function ScanScreen(props) {
 
                 <ScrollView style={style.boxHistory} showVerticalScrollIndicator={false}>
                     <Text style={{ color: "#52b79a", fontSize: 18, fontWeight: "bold", marginVertical: 15 }}>History</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', paddingBottom: 350 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', paddingBottom:400 }}>
                         {dataTransactions.map((transaction, index) => {
                             return (
                                 <TouchableOpacity key={index} style={{ backgroundColor: "#ddebf9", width: "100%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }} onPress={handleViewMore(transaction)}>
