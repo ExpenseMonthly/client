@@ -8,13 +8,20 @@ import {
     AsyncStorage,
     Text,
     TouchableOpacity,
+    ImageBackground,
     Image,
+    ScrollView
 } from 'react-native';
-import UserBar from '../components/userBar';
 import { FontAwesome } from '@expo/vector-icons';
+import { createStackNavigator } from 'react-navigation-stack';
+import UserBar from '../components/userBar';
+import PointBar from '../components/pointBar';
 import Constants from 'expo-constants'
 import { UserAxios } from '../constants/Utilities'
-export default function HomeScreen(props) {
+import GreetBar from '../components/greetBar';
+import EditProfile from './editProfile';
+
+function HomeScreen(props) {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
     async function getUser() {
@@ -46,11 +53,15 @@ export default function HomeScreen(props) {
             }
         )
     }, [])
+
     if (!user) return <Loading />
     else
         return (
             <View style={styles.container}>
-                <View style={styles.pointBar}>
+                <GreetBar />
+                <PointBar />
+
+                {/* <View style={styles.pointBar}>
                     <View style={{ flexDirection: 'row', padding: 10, justifyContent: "space-around", alignItems: 'center' }}>
                         <Image source={require('../assets/images/coin.png')} style={{ width: 50, height: 50 }}></Image>
                         <Text style={{ fontSize: 45, fontWeight: 'bold' }}>{user.point}</Text>
@@ -60,11 +71,17 @@ export default function HomeScreen(props) {
                             <Text style={{ fontSize: 30, color: '#fff', fontWeight: 'bold' }}>Playgame</Text>
                         </View>
                     </TouchableOpacity>
-                </View>
+                </View> */}
                 <UserBar user={user} />
+                <View style={styles.adsBar}>
+                    <ImageBackground style={styles.adsCard}>
+
+                    </ImageBackground>
+                </View>
                 <TouchableOpacity onPress={removeToken}><Text>Logout</Text></TouchableOpacity>
             </View>
         );
+    // console.log(API)'
 }
 
 HomeScreen.navigationOptions = {
@@ -75,15 +92,18 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: Constants.statusBarHeight,
         flex: 1,
-        backgroundColor: '#2ec79c',
-    },
-    pointBar: {
-        margin: 20,
-        marginBottom: 0,
         backgroundColor: '#fff',
-        borderRadius: 5,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+    },
+    adsBar: {
+        marginBottom: 0,
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    adsCard: {
+        backgroundColor: 'salmon',
+        width: '100%',
+        height: 200,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -92,5 +112,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        borderRadius: 5,
     }
 });
+
+// export default HomeScreen;
+
+export default createStackNavigator({
+    HomeScreen,
+    EditProfile
+})
