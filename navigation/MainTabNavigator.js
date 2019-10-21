@@ -8,7 +8,9 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ScanScreen from '../screens/ScanScreen';
 import ChartScreen from '../screens/ChartScreen';
-import TransactionDetailScreen from '../screens/TransactionDetailScreen'
+import TransactionDetailScreen from '../screens/TransactionDetailScreen';
+import ScanEditScreen from '../screens/ScanEditScreen';
+
 const config = Platform.select({
     web: { headerMode: 'screen' },
     default: { headerMode: 'none' },
@@ -40,6 +42,7 @@ HomeStack.path = '';
 const ScanStack = createStackNavigator(
     {
         Scans: ScanScreen,
+        ScanEdit: ScanEditScreen
     },
     config
 );

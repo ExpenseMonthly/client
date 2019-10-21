@@ -47,50 +47,50 @@ export default function ScanScreen(props) {
 
                 let formData = new FormData();
                 formData.append("file", photo.uri);
-                
+
                 const { data } = await TransactionAxios({
                     url: '/',
                     method: "POST",
                     data: {
-                       photo 
+                        photo
                     },
                     headers: {
                         "token": token,
                     }
                 })
                 setLoading(false)
-                console.log(data)
+                props.navigation.navigate('ScanEdit', { data })
             }
         } catch (error) {
             setLoading(false)
             console.log(error)
         }
-        
+
     };
 
     if (!isFocused) return <View><Text>testing</Text></View>
     else if (isFocused)
         if (loading) return <ActivityIndicator size="large" color="#E67E22" style={{ flex: 1 }} />;
-        else 
-        return (
-            <View style={{ flex: 1 }}>
-                <Camera style={{ flex: 1, alignItems: "center" }} type={Camera.Constants.Type.back} ref={ref => {
-                    camera = ref;
-                }}>
-                    <View
-                        style={{
-                            flex: 1,
-                            backgroundColor: 'transparent',
-                            flexDirection: 'row',
-                        }}>
-                    </View>
+        else
+            return (
+                <View style={{ flex: 1 }}>
+                    <Camera style={{ flex: 1, alignItems: "center" }} type={Camera.Constants.Type.back} flashMode={Camera.Constants.FlashMode.on} ref={ref => {
+                        camera = ref;
+                    }}>
+                        <View
+                            style={{
+                                flex: 1,
+                                backgroundColor: 'transparent',
+                                flexDirection: 'row',
+                            }}>
+                        </View>
 
-                    <TouchableOpacity style={styles.buttonCamera} onPress={() => handleSnap()}>
-                        <FontAwesome name="camera" size={26} color='#52b79a' />
-                    </TouchableOpacity>
-                </Camera>
-            </View>
-        );
+                        <TouchableOpacity style={styles.buttonCamera} onPress={() => handleSnap()}>
+                            <FontAwesome name="camera" size={26} color='#52b79a' />
+                        </TouchableOpacity>
+                    </Camera>
+                </View>
+            );
 }
 const styles = StyleSheet.create({
     buttonCamera: {
