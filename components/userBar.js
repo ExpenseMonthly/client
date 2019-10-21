@@ -38,14 +38,21 @@ export default withNavigation((props) => {
             <View style={{ justifyContent: 'space-between', width: "70%", height: 90 }}>
                 <Text style={{ fontSize: 20, fontWeight: "bold", borderBottomColor: '#2ec79c', borderBottomWidth: 3, textTransform: "capitalize" }}>
                     {name}</Text>
+                <View style={{}}>
+
+                </View>
                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <FontAwesome name="cog" size={15} />
                     <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: 5 }}>Profile Settings</Text>
                 </TouchableOpacity>
             </View>
             <View>
-                {/* <Image source={require('../assets/images/male.png')}></Image> */}
-                <Image source={require('../assets/images/female.png')}></Image>
+                {props.user.gender == 'male' &&
+                    <Image source={require('../assets/images/male.png')}></Image>
+                }
+                {props.user.gender == 'female' &&
+                    <Image source={require('../assets/images/female.png')}></Image>
+                }
             </View>
         </View>
     )
