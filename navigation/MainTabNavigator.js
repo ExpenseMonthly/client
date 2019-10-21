@@ -8,10 +8,18 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ScanScreen from '../screens/ScanScreen';
 import ChartScreen from '../screens/ChartScreen';
+<<<<<<< HEAD
+=======
+import TransactionDetailScreen from '../screens/TransactionDetailScreen';
+>>>>>>> edit
 import ScanEditScreen from '../screens/ScanEditScreen';
+import EditScreen from '../screens/EditScreen';
 
+<<<<<<< HEAD
 import TransactionDetailScreen from '../screens/TransactionDetailScreen'
 import EditScreen from '../screens/EditScreen'
+=======
+>>>>>>> edit
 const config = Platform.select({
     web: { headerMode: 'screen' },
     default: { headerMode: 'none' },
