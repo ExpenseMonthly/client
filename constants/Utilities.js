@@ -29,11 +29,30 @@ export const convertDate = (dateFormat) => {
     return `${day}, ${date} ${month} ${year}`
 }
 
-export const convertMonthYear = (dateFormat) => {
-    const monthArray = ["Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
+export const getDate = (dateFormat) => {
+    const convertedDate = new Date(dateFormat)
+    const date = convertedDate.getDate();
+    return date
+}
+
+export const convertMonth = (dateFormat) => {
+    const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
     const convertedDate = new Date(dateFormat)
     
     const month = monthArray[convertedDate.getMonth()];
+    return `${month}`
+}
+
+export const convertYear = (dateFormat) => {
+    const convertedDate = new Date(dateFormat)
     const year = convertedDate.getFullYear();
-    return `${month} ${year}`
+    return `${year}`
+}
+
+export const addZero = (num) => {
+    if(Number(num) <= 9) {
+        return '0'+num
+    } else {
+        return num
+    }
 }
