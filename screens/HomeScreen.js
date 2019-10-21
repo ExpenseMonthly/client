@@ -23,7 +23,7 @@ import EditProfile from './editProfile';
 
 function HomeScreen(props) {
     const dispatch = useDispatch()
-    const user = useSelector(state => state.user.user)
+    const user = useSelector(state => state.user.user);
     async function getUser() {
         const token = await AsyncStorage.getItem('token')
         const { data } = await UserAxios({
@@ -32,16 +32,6 @@ function HomeScreen(props) {
             headers: { token }
         })
         await dispatch(setUser(data))
-    }
-    const removeToken = async () => {
-        try {
-            const keys = await AsyncStorage.getAllKeys()
-            await AsyncStorage.multiRemove(keys)
-            await dispatch(setLoginStatus(false))
-            props.navigation.navigate('Login')
-        } catch (error) {
-            console.log(error)
-        }
     }
     useEffect(() => {
         getUser()
@@ -67,7 +57,6 @@ function HomeScreen(props) {
                         </ImageBackground>
                     </ScrollView>
                 </View>
-                <TouchableOpacity onPress={removeToken}><Text>Logout</Text></TouchableOpacity>
             </View>
         );
 }

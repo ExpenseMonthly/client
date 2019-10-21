@@ -38,13 +38,17 @@ export default withNavigation((props) => {
             <View style={{ justifyContent: 'space-between', width: "70%", height: 90 }}>
                 <Text style={{ fontSize: 20, fontWeight: "bold", borderBottomColor: '#2ec79c', borderBottomWidth: 3, textTransform: "capitalize" }}>
                     {name}</Text>
-                <View style={{}}>
-
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+                        <FontAwesome name="ticket" size={12} />
+                        <Text style={{ fontSize: 12, fontWeight: "bold", marginLeft: 5 }}>Vouchers</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}
+                        onPress={() => props.navigation.navigate('Profile')}>
+                        <FontAwesome name="cog" size={12} />
+                        <Text style={{ fontSize: 12, fontWeight: "bold", marginLeft: 5 }}>Profile Settings</Text>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <FontAwesome name="cog" size={15} />
-                    <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: 5 }}>Profile Settings</Text>
-                </TouchableOpacity>
             </View>
             <View>
                 {props.user.gender == 'male' &&

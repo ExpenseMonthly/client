@@ -12,6 +12,7 @@ import TransactionDetailScreen from '../screens/TransactionDetailScreen';
 import ScanEditScreen from '../screens/ScanEditScreen';
 import GameScreen from '../screens/GameScreen'
 import EditScreen from '../screens/EditScreen';
+import Profile from '../screens/editProfile';
 
 const config = Platform.select({
     web: { headerMode: 'screen' },
@@ -21,7 +22,8 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
     {
         Home: HomeScreen,
-        Game: GameScreen
+        Game: GameScreen,
+        Profile: Profile,
     },
     config
 );
