@@ -7,6 +7,7 @@ import { convertToRupiah, convertDate, TransactionAxios } from '../constants/Uti
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import * as _ from 'lodash'
 import { ScrollView } from 'react-native-gesture-handler';
+
 function EditScreen(props) {
     const [transaction, setTransaction] = useState(props.navigation.state.params.transaction);
     const [modalVisible, setModalVisible] = useState(false)
@@ -110,37 +111,39 @@ function EditScreen(props) {
                 <View style={styles.modalContainer}>
                     <TouchableOpacity style={{ width: "100%", height: "100%", backgroundColor: "black", opacity: 0.5 }} onPress={() => setModalVisible(false)} />
                     <View style={{ position: "absolute", width: '90%', height: "80%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
-                        <TouchableOpacity style={{ height: 50, alignItems: "flex-end", padding: 10 }} onPress={() => setModalVisible(false)}>
-                            <FontAwesome name="close" size={30} color="#d9d9d9" />
-                        </TouchableOpacity>
-                        <View style={{ justifyContent: "center", alignItems: "center" }}>
-                            <Text style={styles.header}>Edit Transaction</Text>
-                            <Image
-                                style={{ width: 300, height: 300 }}
-                                source={require('../assets/images/edit.png')}
-                            />
-                        </View>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setItemName(text)}
-                            value={itemName}
-                            placeholder="item name"
-                        />
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setItemQty(text)}
-                            value={itemQty}
-                            placeholder="item qty"
-                        />
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setItemPrice(text)}
-                            value={itemPrice}
-                            placeholder="item price"
-                        />
-                        <TouchableHighlight onPress={handleEditSave} style={styles.submitButton}>
-                            <Text style={{ fontSize: 20, color: "white" }}>Look's Good</Text>
-                        </TouchableHighlight>
+                        <ScrollView>
+                            <TouchableOpacity style={{ height: 50, alignItems: "flex-end", padding: 10 }} onPress={() => setModalVisible(false)}>
+                                <FontAwesome name="close" size={30} color="#d9d9d9" />
+                            </TouchableOpacity>
+                            <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                <Text style={styles.header}>Edit Transaction</Text>
+                                <Image
+                                    style={{ width: 300, height: 300 }}
+                                    source={require('../assets/images/edit.png')}
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={text => setItemName(text)}
+                                    value={itemName}
+                                    placeholder="item name"
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={text => setItemQty(text)}
+                                    value={itemQty}
+                                    placeholder="item qty"
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={text => setItemPrice(text)}
+                                    value={"12"}
+                                    placeholder="item price"
+                                />
+                                <TouchableHighlight onPress={handleEditSave} style={styles.submitButton}>
+                                    <Text style={{ fontSize: 20, color: "white" }}>Look's Good</Text>
+                                </TouchableHighlight>
+                            </View>
+                        </ScrollView>
                     </View>
                 </View>
             </Modal>
@@ -224,8 +227,8 @@ const styles = StyleSheet.create({
         color: Color.mainColor
     },
     submitButton: {
-        position: "absolute",
-        bottom: 0,
+        // position: "absolute",
+        // bottom: 0,
         width: "100%",
         backgroundColor: Color.mainColor,
         paddingVertical: 20,

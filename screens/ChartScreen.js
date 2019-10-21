@@ -135,7 +135,7 @@ export default function ScanScreen(props) {
                     <Text style={{ color: "white", fontSize: 25, fontWeight: "bold" }}>1.888.000</Text>
                 </View>
 
-                <ScrollView style={style.boxHistory}>
+                <ScrollView style={style.boxHistory} showVerticalScrollIndicator={false}>
                     <Text style={{ color: "#52b79a", fontSize: 18, fontWeight: "bold", marginVertical: 15 }}>History</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', paddingBottom: 350 }}>
                         {dataTransactions.map((transaction, index) => {
