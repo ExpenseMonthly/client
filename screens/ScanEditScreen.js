@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, Modal, TextInput, AsyncStorage, Alert, Image } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, Modal, TextInput, AsyncStorage, Alert, Image, KeyboardAvoidingView } from 'react-native'
 import Color from '../constants/Colors'
 import ExpoConstant from 'expo-constants'
 import Loading from '../components/Loading'
@@ -15,7 +15,7 @@ export default (props) => {
     const [itemName, setItemName] = useState('')
     const [itemQty, setItemQty] = useState(null)
     const [itemPrice, setItemPrice] = useState(0)
-    const [itemIndex, setItemIndex] = useState(null)
+    const [itemIndex, setItemIndex] = useState(-1)
     const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState(false);
 
     const showDateTimePicker = () => {
@@ -54,11 +54,21 @@ export default (props) => {
         // setTransaction(newTransaction)
     }
 
-    const handleEditSave = () => {
+    const handleSave = () => {
         let newTransaction = _.cloneDeep(transaction)
-        newTransaction.items[itemIndex].name = itemName
-        newTransaction.items[itemIndex].qty = itemQty
-        newTransaction.items[itemIndex].price = itemPrice
+        
+        if(itemIndex > -1) {
+            newTransaction.items[itemIndex].name = itemName
+            newTransaction.items[itemIndex].qty = itemQty
+            newTransaction.items[itemIndex].price = itemPrice
+        } else {
+            newTransaction.items.push({
+                name: itemName,
+                qty: itemQty,
+                price: itemPrice
+            })
+        }
+        
         setTransaction(newTransaction)
         setModalVisible(false)
     }
@@ -100,7 +110,12 @@ export default (props) => {
     }
 
     const add = () => {
+        setItemIndex(-1)
+        setItemName('')
+        setItemQty('')
+        setItemPrice('')
 
+        setModalVisible(true)
     }
 
     if (!transaction) return <Loading />
@@ -148,8 +163,8 @@ export default (props) => {
             >
                 <View style={styles.modalContainer}>
                     <TouchableOpacity style={{ width: "100%", height: "100%", backgroundColor: "black", opacity: 0.5 }} onPress={() => setModalVisible(false)} />
-                    <View style={{ paddingTop: ExpoConstant.statusBarHeight, position: "absolute", width: '90%', height: "70%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
-                        <ScrollView>
+                    <KeyboardAvoidingView style={{ paddingTop: ExpoConstant.statusBarHeight, position: "absolute", width: '90%', height: "70%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
+                        <ScrollView showVerticalScrollIndicator={false}>
 
                             <View style={{ justifyContent: "center", alignItems: "center" }}>
 
@@ -174,14 +189,14 @@ export default (props) => {
                             <TextInput
                                 style={styles.input}
                                 onChangeText={text => setItemPrice(text)}
-                                value={itemPrice}
+                                value={String(itemPrice)}
                                 placeholder="item price"
                             />
-                            <TouchableHighlight onPress={handleEditSave} style={styles.submitButton}>
+                            <TouchableHighlight onPress={handleSave} style={styles.submitButton}>
                                 <Text style={{ fontSize: 20, color: "white" }}>Look's Good</Text>
                             </TouchableHighlight>
                         </ScrollView>
-                    </View>
+                    </KeyboardAvoidingView>
                 </View>
             </Modal>
         </>
