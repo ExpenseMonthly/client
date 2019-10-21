@@ -1,42 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator, AsyncStorage } from 'react-native';
+import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, Modal, AsyncStorage, KeyboardAvoidingView } from 'react-native';
+import ExpoConstant from 'expo-constants';
 import Constants from 'expo-constants';
-import { TransactionAxios, convertToRupiah, convertDate } from '../constants/Utilities'
-import DateTimePicker from "react-native-modal-datetime-picker";
-import Loading from '../components/Loading'
+import { TransactionAxios, convertToRupiah, convertDate, convertMonthYear } from '../constants/Utilities';
+import Loading from '../components/Loading';
 import {
     LineChart
 } from "react-native-chart-kit";
 
 export default function ScanScreen(props) {
     const [loading, setLoading] = useState(false);
-    const [startDate, setStartDate] = useState('2019-10-15');
-    const [endDate, setEndDate] = useState('2019-10-22');
+    const [startDate, setStartDate] = useState('2019-10-01');
+    const [endDate, setEndDate] = useState('2019-10-30');
     const [dataTransactions, setDataTransactions] = useState([]);
-    const [isDateTimePickerVisible, setIsDateTimePickerVisible] = useState(false);
-    const showDateTimePicker = () => {
-        setIsDateTimePickerVisible(true)
-    };
+    const [modalVisible, setModalVisible] = useState(false)
 
-    const hideDateTimePicker = () => {
-        setIsDateTimePickerVisible(false)
-    };
-
-    const handleDatePicked = date => {
-        console.log("A date has been picked: ", date);
-        hideDateTimePicker();
-    };
+    const changeDate = () => {
+        setModalVisible(true)
+    }
+    
     const getTransactionRange = async () => {
         try {
             setLoading(true)
             const token = await AsyncStorage.getItem("token");
-            // console.log(token, "<<<< OTKEN")
             const { data } = await TransactionAxios({
                 url: `/findRange/${startDate}/${endDate}`,
                 method: "GET",
                 headers: { token }
             })
-            // console.log(data, "<<<< DATA ")
             setDataTransactions(data);
             setLoading(false)
         } catch (err) {
@@ -46,7 +37,6 @@ export default function ScanScreen(props) {
                 console.log(err)
         }
     }
-
 
     const handleViewMore = (transaction) => () => {
         props.navigation.navigate('TransactionDetail', { transaction })
@@ -60,9 +50,7 @@ export default function ScanScreen(props) {
             }
         )
     }, [])
-    // useEffect(() => {
-    //     console.log(dataTransactions, "<<<<<< DATA TRANSACTION")
-    // }, [dataTransactions])
+
     useEffect(() => {
         getTransactionRange()
     }, [startDate, endDate])
@@ -72,20 +60,9 @@ export default function ScanScreen(props) {
     return (
         <View style={[style.container, { paddingTop: Constants.statusBarHeight }]}>
             <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'space-around' }}>
-
-                <TouchableOpacity title="Show DatePicker" onPress={showDateTimePicker}>
-                    <Text>{startDate}</Text>
+                <TouchableOpacity title="Show DatePicker" onPress={() => changeDate()}>
+                    <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>{convertMonthYear(startDate)}</Text>
                 </TouchableOpacity>
-                <Text>-</Text>
-                <TouchableOpacity title="Show DatePicker" onPress={showDateTimePicker}>
-                    <Text>{endDate}</Text>
-                </TouchableOpacity>
-                <DateTimePicker
-                    isVisible={isDateTimePickerVisible}
-                    onConfirm={handleDatePicked}
-                    onCancel={hideDateTimePicker}
-                />
-                {/* <TouchableOpacity><Text style={{ color: "#ffffff", fontSize: 15, fontWeight: 'bold' }}>Agust 2019</Text></TouchableOpacity> */}
             </View>
             <View style={{ witdh: "100%", paddingHorizontal: 20, justifyContent: "center", alignContent: "center" }}>
 
@@ -137,7 +114,7 @@ export default function ScanScreen(props) {
 
                 <ScrollView style={style.boxHistory} showVerticalScrollIndicator={false}>
                     <Text style={{ color: "#52b79a", fontSize: 18, fontWeight: "bold", marginVertical: 15 }}>History</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', paddingBottom:400 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', paddingBottom: 400 }}>
                         {dataTransactions.map((transaction, index) => {
                             return (
                                 <TouchableOpacity key={index} style={{ backgroundColor: "#ddebf9", width: "100%", paddingVertical: 10, paddingHorizontal: 10, marginVertical: 5, borderRadius: 10 }} onPress={handleViewMore(transaction)}>
@@ -152,6 +129,22 @@ export default function ScanScreen(props) {
                     </View>
                 </ScrollView>
             </View>
+            
+            {/* <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+            >
+                <View style={style.modalContainer}>
+                    <View style={style.modalContainer}>
+                        <TouchableOpacity style={{ width: "100%", height: "100%", backgroundColor: "black", opacity: 0.5 }} onPress={() => setModalVisible(false)} />
+                        
+                        <KeyboardAvoidingView style={{ paddingTop: ExpoConstant.statusBarHeight, position: "absolute", width: '90%', height: "70%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
+                            <Text>xx</Text>
+                        </KeyboardAvoidingView>
+                    </View>
+                </View>
+            </Modal> */}
         </View >
     )
 
@@ -181,5 +174,29 @@ const style = StyleSheet.create({
         paddingHorizontal: 30,
         paddingTop: 10,
 
-    }
+    },
+    modalContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 9,
+        },
+        shadowOpacity: 0.48,
+        shadowRadius: 11.95,
+        elevation: 18,
+    },
+    modalContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 9,
+        },
+        shadowOpacity: 0.48,
+        shadowRadius: 11.95,
+        elevation: 18,
+    },
 });
