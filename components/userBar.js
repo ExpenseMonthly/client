@@ -10,9 +10,10 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import { FontAwesome } from '@expo/vector-icons';
 
-export default function userBar(props) {
+export default withNavigation((props) => {
     const [name, setName] = useState('');
     async function getUser() {
         const user = props.user
@@ -48,7 +49,7 @@ export default function userBar(props) {
             </View>
         </View>
     )
-}
+})
 
 
 const styles = StyleSheet.create({
