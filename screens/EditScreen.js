@@ -109,9 +109,11 @@ function EditScreen(props) {
             >
                 <View style={styles.modalContainer}>
                     <TouchableOpacity style={{ width: "100%", height: "100%", backgroundColor: "black", opacity: 0.5 }} onPress={() => setModalVisible(false)} />
-                    <View style={{ paddingTop: ExpoConstant.statusBarHeight, position: "absolute", width: '90%', height: "80%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
+                    <View style={{ position: "absolute", width: '90%', height: "80%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
+                        <TouchableOpacity style={{ height: 50, alignItems: "flex-end", padding: 10 }} onPress={() => setModalVisible(false)}>
+                            <FontAwesome name="close" size={30} color="#d9d9d9" />
+                        </TouchableOpacity>
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
-
                             <Text style={styles.header}>Edit Transaction</Text>
                             <Image
                                 style={{ width: 300, height: 300 }}

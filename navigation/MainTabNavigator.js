@@ -9,6 +9,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ScanScreen from '../screens/ScanScreen';
 import ChartScreen from '../screens/ChartScreen';
 import ScanEditScreen from '../screens/ScanEditScreen';
+import GameScreen from '../screens/GameScreen'
 
 import TransactionDetailScreen from '../screens/TransactionDetailScreen'
 import EditScreen from '../screens/EditScreen'
@@ -20,6 +21,7 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
     {
         Home: HomeScreen,
+        Game: GameScreen
     },
     config
 );
