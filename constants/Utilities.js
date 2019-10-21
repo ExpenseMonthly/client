@@ -15,7 +15,7 @@ export const convertToRupiah = (nominal) => {
     let rupiah = '';
     let angkarev = nominal.toString().split('').reverse().join('');
     for (let i = 0; i < angkarev.length; i++) if (i % 3 == 0) rupiah += angkarev.substr(i, 3) + '.';
-    return 'Rp. ' + rupiah.split('', rupiah.length - 1).reverse().join('');
+    return rupiah.split('', rupiah.length - 1).reverse().join('');
 }
 
 export const convertDate = (dateFormat) => {

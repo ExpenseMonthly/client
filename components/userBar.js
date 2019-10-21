@@ -15,22 +15,19 @@ import { FontAwesome } from '@expo/vector-icons';
 export default function userBar(props) {
     const [name, setName] = useState('');
     async function getUser() {
-        const user = JSON.parse(await AsyncStorage.getItem('user'));
+        const user = props.user
         const name = user.name.split(" ");
-        console.log(name , 'name')
         let result = '';
         name.forEach((word, index) => {
-            if(index == 0){
+            if (index == 0) {
                 result += word
-            }else if(index == 1){
-                result += ' '+word 
-            }else{
-                result += " "+word[0].toUpperCase()+"."
+            } else if (index == 1) {
+                result += ' ' + word
+            } else {
+                result += " " + word[0].toUpperCase() + "."
             }
         })
-        setName(result);  
-
-
+        setName(result);
     }
     useEffect(() => {
         getUser();
@@ -38,8 +35,8 @@ export default function userBar(props) {
     return (
         <View style={styles.userBox}>
             <View style={{ justifyContent: 'space-between', width: "70%", height: 90 }}>
-                <Text style={{ fontSize: 20, fontWeight: "bold", borderBottomColor: '#2ec79c', borderBottomWidth: 3 }}>
-                {name}</Text>
+                <Text style={{ fontSize: 20, fontWeight: "bold", borderBottomColor: '#2ec79c', borderBottomWidth: 3, textTransform: "capitalize" }}>
+                    {name}</Text>
                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <FontAwesome name="cog" size={15} />
                     <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: 5 }}>Profile Settings</Text>
