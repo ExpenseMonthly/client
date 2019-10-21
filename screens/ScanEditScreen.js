@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
 import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, Modal, TextInput, AsyncStorage, Alert, Image } from 'react-native'
 import Color from '../constants/Colors'
 import ExpoConstant from 'expo-constants'
@@ -8,14 +7,6 @@ import { convertToRupiah, convertDate, TransactionAxios } from '../constants/Uti
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import * as _ from 'lodash'
 import { ScrollView } from 'react-native-gesture-handler';
-=======
-import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight, Modal, TextInput } from 'react-native'
-import Color from '../constants/Colors'
-import ExpoConstant from 'expo-constants'
-import Loading from '../components/Loading'
-import { convertToRupiah, convertDate } from '../constants/Utilities'
-import * as _ from 'lodash'
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
 
 export default (props) => {
     const [transaction, setTransaction] = useState(props.navigation.state.params.data);
@@ -24,12 +15,8 @@ export default (props) => {
     const [itemQty, setItemQty] = useState(null)
     const [itemPrice, setItemPrice] = useState(0)
     const [itemIndex, setItemIndex] = useState(null)
-<<<<<<< HEAD
     // const [editTransaction, setEditTransaction] = useState(null)
 
-=======
-    
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
     const setEditItem = (index) => {
         setItemName(transaction.items[index].name)
         setItemQty(String(transaction.items[index].qty))
@@ -47,20 +34,12 @@ export default (props) => {
         // setTransaction(newTransaction)
     }
 
-<<<<<<< HEAD
     const handleEditSave = () => {
-=======
-    const handleSave = () => {
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
         let newTransaction = _.cloneDeep(transaction)
         newTransaction.items[itemIndex].name = itemName
         newTransaction.items[itemIndex].qty = itemQty
         newTransaction.items[itemIndex].price = itemPrice
         setTransaction(newTransaction)
-<<<<<<< HEAD
-=======
-
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
         setModalVisible(false)
     }
     const deleteItem = (index) => () => {
@@ -72,7 +51,6 @@ export default (props) => {
     const reset = () => {
         setTransaction(props.navigation.state.params.transaction)
     }
-<<<<<<< HEAD
     const save = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -95,13 +73,10 @@ export default (props) => {
     const add = () => {
 
     }
-=======
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
     if (!transaction) return <Loading />
     return (
         <>
             <View style={styles.container}>
-<<<<<<< HEAD
                 <ScrollView>
                     <TouchableOpacity onPress={() => props.navigation.goBack()}><Ionicons name="ios-arrow-back" size={40} color="white" /></TouchableOpacity>
                     <Text style={styles.tip}>Purchased on: </Text>
@@ -127,27 +102,6 @@ export default (props) => {
                         <TouchableOpacity onPress={save} style={styles.button}><FontAwesome name="save" size={30} color="white" /></TouchableOpacity>
                     </View>
                 </ScrollView>
-=======
-                <Text style={styles.tip}>Purchased on: </Text>
-                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%", height: 40 }}>
-                    <Text style={styles.date}>{convertDate(transaction.date)}  </Text>
-                </View>
-                {transaction.items.map((item, index) => {
-                    return (
-                        <View style={styles.editBox} key={index}>
-                            <Text style={styles.name}>{item.name}</Text>
-                            <Text style={styles.qty}>Qty : {item.qty}</Text>
-                            <Text style={styles.price}>Rp {convertToRupiah(item.price)}</Text>
-                            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
-                                <TouchableOpacity onPress={editItem(index)}><Text>Edit</Text></TouchableOpacity>
-                                <TouchableOpacity onPress={deleteItem(index)}><Text>Delete</Text></TouchableOpacity>
-                            </View>
-                        </View>
-                    )
-                })}
-
-                <TouchableOpacity onPress={reset} style={styles.resetButton}><Text>Reset</Text></TouchableOpacity>
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
             </View >
             <Modal
                 animationType="fade"
@@ -157,7 +111,6 @@ export default (props) => {
                 <View style={styles.modalContainer}>
                     <TouchableOpacity style={{ width: "100%", height: "100%", backgroundColor: "black", opacity: 0.5 }} onPress={() => setModalVisible(false)} />
                     <View style={{ paddingTop: ExpoConstant.statusBarHeight, position: "absolute", width: '90%', height: "80%", backgroundColor: "white", borderRadius: 10, marginLeft: 20 }} >
-<<<<<<< HEAD
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
 
                             <Text style={styles.header}>Edit Transaction</Text>
@@ -168,57 +121,31 @@ export default (props) => {
                         </View>
                         <TextInput
                             style={styles.input}
-=======
-
-                        <TextInput
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
                             onChangeText={text => setItemName(text)}
                             value={itemName}
                             placeholder="item name"
                         />
                         <TextInput
-<<<<<<< HEAD
                             style={styles.input}
-=======
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
                             onChangeText={text => setItemQty(text)}
                             value={itemQty}
                             placeholder="item qty"
                         />
                         <TextInput
-<<<<<<< HEAD
                             style={styles.input}
-=======
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
                             onChangeText={text => setItemPrice(text)}
                             value={itemPrice}
                             placeholder="item price"
                         />
-<<<<<<< HEAD
                         <TouchableHighlight onPress={handleEditSave} style={styles.submitButton}>
                             <Text style={{ fontSize: 20, color: "white" }}>Look's Good</Text>
-=======
-                        <TouchableHighlight onPress={handleSave}>
-                            <Text>Look's Good</Text>
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
                         </TouchableHighlight>
                     </View>
                 </View>
             </Modal>
         </>
     )
-<<<<<<< HEAD
 }
-=======
-    
-    // console.log(props.navigation.state.params.data, 'ini')
-    // return <Text>{JSON.stringify(props.navigation.state.params.data, null, 2)}</Text>
-}
-
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
 const styles = StyleSheet.create({
     container: {
         paddingTop: ExpoConstant.statusBarHeight,
@@ -258,16 +185,9 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textTransform: "uppercase"
     },
-<<<<<<< HEAD
     button: {
         paddingHorizontal: 10,
         paddingVertical: 5,
-=======
-    resetButton: {
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        backgroundColor: "green"
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
     },
     date: {
         fontSize: 30,
@@ -280,7 +200,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 20
     },
-<<<<<<< HEAD
     editButton: {
         padding: 10,
     },
@@ -315,6 +234,4 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 10
     }
 
-=======
->>>>>>> 578dbc1dc8d49150fa808f90d1a35ea42e5805ed
 })

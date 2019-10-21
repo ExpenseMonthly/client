@@ -7,6 +7,7 @@ import { convertToRupiah, convertDate, TransactionAxios } from '../constants/Uti
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import * as _ from 'lodash'
 import { ScrollView } from 'react-native-gesture-handler';
+
 function EditScreen(props) {
     const [transaction, setTransaction] = useState(props.navigation.state.params.transaction);
     const [modalVisible, setModalVisible] = useState(false)
