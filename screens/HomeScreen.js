@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
+<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoginStatus, setUser } from '../redux/actions'
 import Loading from '../components/Loading'
+=======
+import { useDispatch } from 'react-redux'
+import { setLoginStatus, setUser } from '../redux/actions'
+>>>>>>> 05ccfb3c1ff6d462ac58e5dc9f1ce2dba27e483b
 import {
     StyleSheet,
     View,
@@ -16,6 +21,7 @@ import Constants from 'expo-constants'
 import { UserAxios } from '../constants/Utilities'
 export default function HomeScreen(props) {
     const dispatch = useDispatch()
+<<<<<<< HEAD
     const user = useSelector(state => state.user.user)
     async function getUser() {
         const token = await AsyncStorage.getItem('token')
@@ -26,6 +32,19 @@ export default function HomeScreen(props) {
         })
         await dispatch(setUser(data))
 
+=======
+    async function getToken() {
+        try {
+            const keys = await AsyncStorage.getAllKeys();
+            const token = await AsyncStorage.getItem('token');
+            const user = await AsyncStorage.getItem('user')
+            await dispatch(setUser(JSON.parse(user)))
+            // console.log(user, " <<<<< USER ")
+            // console.log(token, " <<<<< TOKEN")
+        } catch (error) {
+            console.log(error)
+        }
+>>>>>>> 05ccfb3c1ff6d462ac58e5dc9f1ce2dba27e483b
     }
     const removeToken = async () => {
         try {
