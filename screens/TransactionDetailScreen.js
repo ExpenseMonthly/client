@@ -40,7 +40,9 @@ function TransactionDetail(props) {
             { cancelable: false },
         );
     }
-
+    const handleEdit = () => {
+        props.navigation.navigate('Edit', { transaction })
+    }
     return (
         <View style={styles.container}>
             <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
@@ -60,7 +62,7 @@ function TransactionDetail(props) {
                         <Text style={styles.tip}>Purchased on: </Text>
                         <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", width: "100%", height: 40 }}>
                             <Text style={styles.date}>{convertDate(transaction.date)}  </Text>
-                            <TouchableOpacity onPress={() => console.log(transaction._id)}><FontAwesome name="pencil-square-o" size={25} color="white" /></TouchableOpacity>
+                            <TouchableOpacity onPress={handleEdit}><FontAwesome name="pencil-square-o" size={25} color="white" /></TouchableOpacity>
                         </View>
                     </View>
 
