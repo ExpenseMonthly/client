@@ -8,9 +8,14 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ScanScreen from '../screens/ScanScreen';
 import ChartScreen from '../screens/ChartScreen';
+<<<<<<< HEAD
 import TransactionDetailScreen from '../screens/TransactionDetailScreen';
 import ScanEditScreen from '../screens/ScanEditScreen';
 
+=======
+import TransactionDetailScreen from '../screens/TransactionDetailScreen'
+import EditScreen from '../screens/EditScreen'
+>>>>>>> edit Transction template
 const config = Platform.select({
     web: { headerMode: 'screen' },
     default: { headerMode: 'none' },
@@ -62,7 +67,8 @@ ScanStack.path = '';
 const ChartStack = createStackNavigator(
     {
         Chart: ChartScreen,
-        TransactionDetail: TransactionDetailScreen
+        TransactionDetail: TransactionDetailScreen,
+        Edit: EditScreen
     },
     config
 );
