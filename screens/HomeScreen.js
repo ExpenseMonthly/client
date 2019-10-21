@@ -17,10 +17,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import UserBar from '../components/userBar';
 import PointBar from '../components/pointBar';
 import Constants from 'expo-constants'
-<<<<<<< HEAD
 import { UserAxios } from '../constants/Utilities'
-=======
->>>>>>> 47e2a08161293cc1a6902f72fc0563f43916efd0
 import GreetBar from '../components/greetBar';
 import EditProfile from './editProfile';
 
