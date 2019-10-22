@@ -36,20 +36,29 @@ function VoucherDetailScreen(props) {
             }
         )
     }, [])
-
+    
     const handlePurchase = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
 
             if(user.point >= point) {
-                const { data } = await UserAxios({
+                await UserAxios({
                     method: "POST",
                     url: "/voucers/" + _id,
                     headers: { token }
                 });
-    
+
+                await UserAxios({
+                    url: "/point",
+                    method: "PATCH",
+                    headers: { token },
+                    data: {
+                        point: point * -1
+                    }
+                })
+
                 getUser();
-    
+
                 Alert.alert("Voucher purchase successfully");
             } else {
                 Alert.alert(`Sorry you need at least ${point} to purchase voucher`);
