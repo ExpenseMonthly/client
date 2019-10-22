@@ -7,10 +7,10 @@ import { Ionicons } from '@expo/vector-icons'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { UserAxios } from '../constants/Utilities';
 
-function VoucherListScreen(props) {
+function VoucherUserListScreen(props) {
 
     let [vouchers, setVouchers] = useState(Array);
-    
+
     const getVouchers = async () => {
         try {
             const token = await AsyncStorage.getItem("token");
@@ -28,14 +28,14 @@ function VoucherListScreen(props) {
                 console.log(err)
         }
     }
-    
+
     useEffect(() => {
         getVouchers();
-        
+
         props.navigation.addListener(
             'didFocus',
             payload => {
-                getVouchers();                
+                getVouchers();
             }
         )
     }, [])
@@ -45,11 +45,11 @@ function VoucherListScreen(props) {
             <ScrollView style={{ width: "100%", height: "100%" }} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                 <TouchableOpacity onPress={() => props.navigation.goBack()}><Ionicons name="ios-arrow-back" size={40} color="white" /></TouchableOpacity>
                 <View style={styles.headerContainer}>
-                    <Text style={styles.header}>Voucher List</Text>
+                    <Text style={styles.header}>My Voucher</Text>
                 </View>
-                {vouchers.map(voucher => {
+                {vouchers.map((voucher, i) => {
                     return (
-                        <TouchableOpacity key={voucher._id} style={{ width: "100%" }} onPress={() => props.navigation.navigate("VoucherDetail", { voucher })}>
+                        <TouchableOpacity key={voucher._id + '_' + i} style={{ width: "100%" }} onPress={() => props.navigation.navigate("VoucherUserDetail", { voucher })}>
                             <Voucher voucher={voucher} />
                         </TouchableOpacity>
                     )
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default VoucherListScreen
+export default VoucherUserListScreen

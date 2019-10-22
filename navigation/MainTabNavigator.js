@@ -16,6 +16,7 @@ import VoucherUserList from '../screens/VoucherUserList'
 
 import VoucherListScreen from '../screens/VoucherListScreen'
 import VoucherDetailScreen from '../screens/VoucherDetailScreen'
+import VoucherUserDetailScreen from '../screens/VoucherUserDetailScreen'
 
 const config = Platform.select({
     web: { headerMode: 'screen' },
@@ -27,7 +28,8 @@ const HomeStack = createStackNavigator(
         Home: HomeScreen,
         Profile: Profile,
         Game: GameScreen,
-        VoucherUser: VoucherUserList
+        VoucherUser: VoucherUserList,
+        VoucherUserDetail: VoucherUserDetailScreen
     },
     config
 );
