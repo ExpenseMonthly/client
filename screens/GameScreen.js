@@ -5,66 +5,115 @@ import { StyleSheet, View, Text, TouchableOpacity, TextInput, KeyboardAvoidingVi
 import Loading from '../components/Loading'
 import ExpoConstants from 'expo-constants'
 import Color from '../constants/Colors'
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, FontAwesome } from '@expo/vector-icons'
 function GameScreen(props) {
+    const COUNTER = 2
     const [number, setNumber] = useState(null)
-    const [show, setShow] = useState(false)
+    const [code, setCode] = useState(null)
+    const [show, setShow] = useState({ number: false, input: false, playButton: true })
     const [moveLeft, setMoveLeft] = useState(3)
-    const [finished, setFinished] = useState(false)
+    // const [finished, setFinished] = useState(false)
     const [trueAnswer, setTrueAnswer] = useState(0)
+    const [counter, setCounter] = useState(COUNTER)
+    // const [isPlaying, setIsPlaying] = useState(false)
     const field = useRef()
+
+    const handleAlertPress = () => {
+        if (moveLeft <= 1) {
+            props.navigation.goBack()
+        }
+    }
+
     const handlerOnFulfill = code => {
+        setCode(code)
+        setMoveLeft(moveLeft - 1)
         if (code == number) {
-            Alert.alert('Nice one!')
+            Alert.alert('Nice one!', "", [{ text: 'OK', onPress: handleAlertPress }])
             setTrueAnswer(trueAnswer + 1)
         } else {
-            Alert.alert('Wrong answer! XD')
+            Alert.alert('Wrong answer! XD', "", [{ text: 'oke', onPress: handleAlertPress }])
         }
-
-        setMoveLeft(moveLeft - 1)
-        setShow(false)
-        const { current } = field
-        current.clear()
+        setShow({ playButton: true, number: false, input: false })
+        field.current.clear()
     };
 
     const handlePlay = () => {
-        setShow(true)
+        setRandomNumber()
+        setShow({ playButton: false, number: true, input: false })
+        setCounter(COUNTER)
+
+        if (field.current) {
+            field.current.focus()
+        }
+
+        let timer = setInterval(() => {
+            setCounter(counter => {
+                let newCounter = counter - 1
+                if (newCounter <= 0) {
+                    clearInterval(timer)
+                    setShow({ playButton: false, number: false, input: true })
+                }
+                return newCounter
+            })
+        }, 1000)
+    }
+
+    const setRandomNumber = () => {
+        const randomNumber = Math.floor(Math.random() * 10000 + 9999)
+        setNumber(randomNumber)
     }
     useEffect(() => {
         props.navigation.addListener(
             'didFocus',
             payload => {
-                const randomNumber = Math.floor(Math.random() * 10000 + 9999)
-                setNumber(randomNumber)
+                setRandomNumber()
             }
         )
     }, [])
-    useEffect(() => {
-        if (moveLeft <= 0) {
-            setFinished(true)
-            Alert.alert("Game Finsihed");
-            props.navigation.goBack()
-        }
-    }, [moveLeft])
+
 
     if (!number) return <Loading />
     else
         return (
+
             <KeyboardAvoidingView style={styles.container}>
                 <TouchableOpacity onPress={() => props.navigation.goBack()}><Ionicons name="ios-arrow-back" size={40} color="white" /></TouchableOpacity>
-                <Text>Move Left {moveLeft}</Text>
-                <Text>True Answer {trueAnswer}</Text>
-                <Text>Game status {finished ? "finished" : "playing"}</Text>
                 <View style={styles.gameContainer}>
-                    {show && <Text style={styles.number}>{number}</Text>}
-                    {show ?
-                        <CodeInput ref={field} onFulfill={handlerOnFulfill} /> :
-                        <TouchableOpacity onPress={handlePlay}><Text>Play</Text></TouchableOpacity>
-                    }
+                    <Text>{moveLeft} Move Remaining</Text>
+                    <Text>True Answer {trueAnswer}</Text>
+                    <View style={styles.gameContainer}>
+                        {show.number && (
+                            <View style={styles.randomNumberContainer}>
+                                <Text>{counter} second remaining</Text>
+                                <Text style={styles.number}>{number}</Text>
+                            </View>
+                        )}
+                        {!show.number && (
+                            <View style={styles.randomNumberContainer}>
+                                <Text>Ready? You only got 3 second to remember the number</Text>
+                                <View style={{ flexDirection: "row" }}>
+                                    <View style={{ paddingHorizontal: 8 }}>
+                                        <FontAwesome name="lock" size={60} />
+                                    </View>
+                                    <View style={{ paddingHorizontal: 8 }}>
+                                        <FontAwesome name="lock" size={60} />
+                                    </View>
+                                    <View style={{ paddingHorizontal: 8 }}>
+                                        <FontAwesome name="lock" size={60} />
+                                    </View>
+                                    <View style={{ paddingHorizontal: 8 }}>
+                                        <FontAwesome name="lock" size={60} />
+                                    </View>
+                                    <View style={{ paddingHorizontal: 8 }}>
+                                        <FontAwesome name="lock" size={60} />
+                                    </View>
+                                </View>
+                            </ View>
+                        )}
+                        {show.input && <CodeInput autoFocus={true} ref={field} onFulfill={handlerOnFulfill} />}
+                        {show.playButton && <TouchableOpacity style={styles.playButton} onPress={handlePlay}><Text style={{ textTransform: "uppercase", color: "white", fontSize: 40, fontWeight: "bold" }}>Play</Text></TouchableOpacity>}
+                    </View>
                 </View>
-
-
-
             </KeyboardAvoidingView>
         )
 }
@@ -74,11 +123,12 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: ExpoConstants.statusBarHeight,
         backgroundColor: Color.mainColor,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
     },
     gameContainer: {
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        width: "100%"
     },
     number: {
         fontSize: 80,
@@ -88,6 +138,21 @@ const styles = StyleSheet.create({
         height: 40,
         borderColor: 'gray',
         borderWidth: 1
+    },
+    playButton: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: "orange",
+        borderRadius: 5,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    randomNumberContainer: {
+        height: 400,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
 
