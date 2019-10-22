@@ -14,7 +14,6 @@ import {
 import * as d3Shape from 'd3-shape';
 import color from 'randomcolor';
 import { snap } from '@popmotion/popcorn';
-import Axios from 'axios';
 const { width } = Dimensions.get('screen');
 const numberOfSegments = 6;
 const wheelSize = width * 0.95;
@@ -76,8 +75,6 @@ export default class App extends React.Component {
     _updateScore() {
         const token = this.state.token;
         const point = this.state.winner;
-        console.log(token);
-        console.log(point);
         axios({
             url: 'http://localhost:3000/users/point',
             method: 'patch',
@@ -89,7 +86,6 @@ export default class App extends React.Component {
             }
         })
             .then(({ data }) => {
-                console.log(data);
                 Alert.alert(`Congratulation you got ${this.state.winner} points`, "", [{ text: 'Ok', onPress: this._handleAlertPress }]);
             })
             .catch(console.log);
