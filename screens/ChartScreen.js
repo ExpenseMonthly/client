@@ -9,18 +9,18 @@ import {
 
 export default function ScanScreen(props) {
     const [loading, setLoading] = useState(false);
-    
+
     const [month, setMonth] = useState(addZero(dateNow().getMonth() + 1));
     const [year, setYear] = useState(dateNow().getFullYear());
 
     const [dataTransactions, setDataTransactions] = useState([]);
     const [summaryTransaction, setSummaryTransaction] = useState({
-                                                                    total: 0,
-                                                                    week1: 0,
-                                                                    week2: 0,
-                                                                    week3: 0,
-                                                                    week4: 0
-                                                                });
+        total: 0,
+        week1: 0,
+        week2: 0,
+        week3: 0,
+        week4: 0
+    });
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -37,7 +37,7 @@ export default function ScanScreen(props) {
                 method: "GET",
                 headers: { token }
             })
-            
+
             let newSummaryTransaction = {
                 total: 0,
                 week1: 0,
@@ -45,18 +45,18 @@ export default function ScanScreen(props) {
                 week3: 0,
                 week4: 0
             }
-            
+
             data.forEach(el => {
                 newSummaryTransaction.total += Number(el.total),
 
-                newSummaryTransaction.week1 += (getDate(el.date) <= 7) ? Number(el.total) : 0;
-                newSummaryTransaction.week2 += (getDate(el.date) > 7 && getDate(el.date) <= 14) ? Number(el.total) : 0;    
+                    newSummaryTransaction.week1 += (getDate(el.date) <= 7) ? Number(el.total) : 0;
+                newSummaryTransaction.week2 += (getDate(el.date) > 7 && getDate(el.date) <= 14) ? Number(el.total) : 0;
                 newSummaryTransaction.week3 += (getDate(el.date) > 14 && getDate(el.date) <= 21) ? Number(el.total) : 0;
                 newSummaryTransaction.week4 += (getDate(el.date) > 14) ? Number(el.total) : 0;
             });
-            
+
             setSummaryTransaction(newSummaryTransaction);
-            
+
             setDataTransactions(data);
             setLoading(false)
         } catch (err) {
@@ -93,7 +93,8 @@ export default function ScanScreen(props) {
             <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'center' }}>
                 <Picker
                     selectedValue={month}
-                    style={{ height: 20, width: 100, color: "white" }}
+                    style={{ height: 50, width: 100, color: "white" }}
+                    itemStyle={{ height: 50 }}
                     onValueChange={(itemValue, itemIndex) =>
                         setMonth(itemValue)
                     }
@@ -104,7 +105,8 @@ export default function ScanScreen(props) {
                 </Picker>
                 <Picker
                     selectedValue={year}
-                    style={{ height: 20, width: 100, color: "white" }}
+                    style={{ height: 50, width: 100, color: "white" }}
+                    itemStyle={{ height: 50 }}
                     onValueChange={(itemValue, itemIndex) =>
                         setYear(itemValue)
                     }
