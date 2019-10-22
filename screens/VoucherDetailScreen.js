@@ -10,7 +10,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons'
 function VoucherDetailScreen(props) {
     const { voucher } = props.navigation.state.params
-    const { title, expire_date, description, image } = voucher
+    const { title, expire_date, description, image, point } = voucher
     if (!voucher) return <Loading />
     return (
         <View style={styles.container}>
@@ -24,6 +24,9 @@ function VoucherDetailScreen(props) {
                     <View>
                         <View style={{ marginBottom: 20 }}>
                             <Text style={styles.title}>{title}</Text>
+                        </View>
+                        <View style={{ paddingTop: 10 }}>
+                            <Text style={styles.point}>Point : {point}</Text>
                         </View>
                         <Text style={styles.description}>{description}</Text>
                         <View style={{ paddingTop: 10 }}>
@@ -70,6 +73,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: "orange",
         textAlign: "right"
+    },
+    Point: {
+        fontSize: 15,
+        color: "orange"
     },
     description: {
         fontSize: 20,

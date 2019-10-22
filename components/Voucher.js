@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native'
 import { convertDate } from '../constants/Utilities';
 function Voucher(props) {
-    const { voucher: { title, image, expire_date, description } } = props
+    const { voucher: { title, image, expire_date, description, point } } = props
     return (
         <View style={styles.container}>
             <Image
@@ -11,6 +11,7 @@ function Voucher(props) {
             />
             <View style={{ padding: 10 }}>
                 <Text style={styles.title}>{title}</Text>
+                <Text style={styles.expire}>Point : {point}</Text>
                 <Text style={styles.expire}>Expired on : {convertDate(expire_date)}</Text>
 
             </View>

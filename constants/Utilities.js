@@ -10,7 +10,12 @@ export const UserAxios = Axios.create({
 
 export const TransactionAxios = Axios.create({
     baseURL: `${baseURL}/transactions`,
-})
+});
+
+export const VoucherAxios = Axios.create({
+    baseURL: `${baseURL}/voucers`,
+});
+
 export const convertToRupiah = (nominal) => {
     let rupiah = '';
     let angkarev = nominal.toString().split('').reverse().join('');
@@ -20,7 +25,7 @@ export const convertToRupiah = (nominal) => {
 
 export const convertDate = (dateFormat) => {
     const weekday = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
-    const monthArray = ["Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
     const convertedDate = new Date(dateFormat)
     const day = weekday[convertedDate.getDay()];
     const date = convertedDate.getDate();
