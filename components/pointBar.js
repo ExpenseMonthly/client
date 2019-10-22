@@ -1,26 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux'
-import { setLoginStatus } from '../redux/actions'
-// import { API } from 'react-native-dotenv'
+import React from 'react';
 import {
     StyleSheet,
     View,
-    AsyncStorage,
     Text,
     TouchableOpacity,
     Image,
+    Alert,
+    AsyncStorage
 } from 'react-native';
 import { withNavigation } from 'react-navigation'
-import { FontAwesome } from '@expo/vector-icons';
+import { functionTypeAnnotation } from '@babel/types';
+import axios from 'axios';
+
+function updateScore() {
+    AsyncStorage.getItem("token")
+        .then(value => {
+            const token = value;
+            const point = -5;
+            axios({
+                url: 'http://localhost:3000/users/point',
+                method: 'patch',
+                headers: {
+                    token
+                },
+                data: {
+                    point
+                }
+            })
+                .then(({ data }) => {
+                })
+                .catch(console.log);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+}
 
 function PointBar(props) {
+    const gotogame = () => {
+        if (props.point < 5) {
+            Alert.alert(`Sorry you need at least 5 point to play game`, "", [{ text: 'Ok' }])
+        } else {
+            updateScore();
+            props.navigation.navigate('Game');
+        }
+    }
     return (
         <View style={styles.pointBar}>
             <View style={{ flexDirection: 'row', padding: 10, justifyContent: "space-around", alignItems: 'center' }}>
                 <Image source={require('../assets/images/coin.png')} style={{ width: 50, height: 50 }}></Image>
                 <Text style={{ fontSize: 45, fontWeight: 'bold' }}>{props.point}</Text>
             </View>
-            <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10, borderTopRightRadius: 5, borderBottomRightRadius: 5 }} onPress={() => props.navigation.navigate('Game')} >
+            <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10, borderTopRightRadius: 5, borderBottomRightRadius: 5 }} onPress={gotogame} >
                 <View>
                     <Text style={{ fontSize: 30, color: '#fff', fontWeight: 'bold' }}>
                         Playgame

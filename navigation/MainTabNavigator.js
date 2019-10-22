@@ -3,14 +3,13 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
-
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ScanScreen from '../screens/ScanScreen';
 import ChartScreen from '../screens/ChartScreen';
 import TransactionDetailScreen from '../screens/TransactionDetailScreen';
 import ScanEditScreen from '../screens/ScanEditScreen';
-import GameScreen from '../screens/GameScreen'
+import GameScreen from '../screens/WheelScreen';
 import EditScreen from '../screens/EditScreen';
 import Profile from '../screens/editProfile';
 
@@ -25,8 +24,8 @@ const config = Platform.select({
 const HomeStack = createStackNavigator(
     {
         Home: HomeScreen,
-        Game: GameScreen,
         Profile: Profile,
+        Game: GameScreen,
     },
     config
 );
@@ -42,8 +41,23 @@ HomeStack.navigationOptions = {
     ),
     tabBarOptions: {
         activeTintColor: Colors.tabIconSelected
+    },
+    tabBarVisible : () => {
+        return (navigation.state.routes[navigation.state.index].routeName =='Game' ) ? false : true 
     }
+    
 };
+
+// HomeStack.navigationOptions = ({ navigation }) => {
+//     let tabBarVisible = true;
+//     let routeName = navigation.state.routes[navigation.state.index].routeName
+//     if (routeName == 'Game') {
+//         tabBarVisible = false
+//     }
+//     return {
+//         tabBarVisible,
+//     }
+// }
 
 HomeStack.path = '';
 
