@@ -1,16 +1,68 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native'
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Text, Image, AsyncStorage, Alert } from 'react-native'
 import ExpoConstants from 'expo-constants'
 import Constants from '../constants/Colors'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUser } from '../redux/actions'
 import { convertDate } from '../constants/Utilities'
-import { LinearGradient } from 'expo-linear-gradient'
 import Loading from '../components/Loading'
 import Colors from '../constants/Colors';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons'
+import { UserAxios } from '../constants/Utilities'
+
 function VoucherDetailScreen(props) {
-    const { voucher } = props.navigation.state.params
-    const { title, expire_date, description, image, point } = voucher
+    const { voucher } = props.navigation.state.params;
+    const { _id, title, expire_date, description, image, point } = voucher;
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user.user);
+
+    async function getUser() {
+        const token = await AsyncStorage.getItem('token')
+        
+        const { data } = await UserAxios({
+            url: "/",
+            method: "GET",
+            headers: { token }
+        })
+        await dispatch(setUser(data))
+    }
+
+    useEffect(() => {
+        getUser()
+        props.navigation.addListener(
+            'didFocus',
+            payload => {
+                getUser()
+            }
+        )
+    }, [])
+
+    const handlePurchase = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+
+            if(user.point >= point) {
+                const { data } = await UserAxios({
+                    method: "POST",
+                    url: "/voucers/" + _id,
+                    headers: { token }
+                });
+    
+                getUser();
+    
+                Alert.alert("Voucher purchase successfully");
+            } else {
+                Alert.alert(`Sorry you need at least ${point} to purchase voucher`);
+            }
+        } catch (error) {
+            if (error.response.data.message)
+                Alert.alert(error.response.data.message[0])
+            else
+                Alert.alert("Opps.. something gone wrong! please reload")
+            console.log(error.response)
+        }
+    }
+
     if (!voucher) return <Loading />
     return (
         <View style={styles.container}>
@@ -32,8 +84,8 @@ function VoucherDetailScreen(props) {
                         <View style={{ paddingTop: 10 }}>
                             <Text style={styles.date}>{convertDate(expire_date)}</Text>
                         </View>
-                        <TouchableOpacity style={styles.purchaseButton}>
-                            <Text style={{ textAlign: "center" }}>Purchase</Text>
+                        <TouchableOpacity style={styles.purchaseButton} onPress={() => handlePurchase()}>
+                            <Text style={{ textAlign: "center", color: "white" }}>Purchase</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
