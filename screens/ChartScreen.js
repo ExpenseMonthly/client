@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, ScrollView, StyleSheet, TouchableOpacity, AsyncStorage, Picker } from 'react-native';
 import Constants from 'expo-constants';
-import { TransactionAxios, convertToRupiah, convertDate, convertMonth, convertYear, addZero, getDate } from '../constants/Utilities';
+import { TransactionAxios, convertToRupiah, convertDate, convertMonth, convertYear, addZero, getDate, dateNow } from '../constants/Utilities';
 import Loading from '../components/Loading';
 import {
     LineChart
@@ -9,9 +9,9 @@ import {
 
 export default function ScanScreen(props) {
     const [loading, setLoading] = useState(false);
-
-    const [month, setMonth] = useState('10');
-    const [year, setYear] = useState('2019');
+    
+    const [month, setMonth] = useState(addZero(dateNow().getMonth() + 1));
+    const [year, setYear] = useState(dateNow().getFullYear());
 
     const [dataTransactions, setDataTransactions] = useState([]);
     const [summaryTransaction, setSummaryTransaction] = useState({
@@ -75,6 +75,8 @@ export default function ScanScreen(props) {
         props.navigation.addListener(
             'didFocus',
             payload => {
+                setMonth(addZero(dateNow().getMonth() + 1))
+                setYear(dateNow().getFullYear())
                 getTransactionRange(`${year}-${month}-01`, `${year}-${month}-31`)
             }
         )
@@ -157,7 +159,7 @@ export default function ScanScreen(props) {
             <View style={style.box}>
                 <View style={style.bexExpenses}>
                     <Text style={{ color: "white" }}>Expenses</Text>
-                    <Text style={{ color: "white", fontSize: 25, fontWeight: "bold" }}>{summaryTransaction.total}</Text>
+                    <Text style={{ color: "white", fontSize: 25, fontWeight: "bold" }}>{convertToRupiah(summaryTransaction.total)}</Text>
                 </View>
 
                 <ScrollView style={style.boxHistory} showVerticalScrollIndicator={false}>

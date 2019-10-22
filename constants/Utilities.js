@@ -53,6 +53,10 @@ export const addZero = (num) => {
     if(Number(num) <= 9) {
         return '0'+num
     } else {
-        return num
+        return String(num)
     }
+}
+
+export const dateNow = () => {
+    return new Date();
 }
