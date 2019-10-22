@@ -14,6 +14,9 @@ import GameScreen from '../screens/GameScreen'
 import EditScreen from '../screens/EditScreen';
 import Profile from '../screens/editProfile';
 
+import VoucherListScreen from '../screens/VoucherListScreen'
+import VoucherDetailScreen from '../screens/VoucherDetailScreen'
+
 const config = Platform.select({
     web: { headerMode: 'screen' },
     default: { headerMode: 'none' },
@@ -85,8 +88,26 @@ ChartStack.navigationOptions = {
 
 ChartStack.path = '';
 
+const VoucherStack = createStackNavigator(
+    {
+        VoucherList: VoucherListScreen,
+        VoucherDetail: VoucherDetailScreen
+    },
+    config
+)
+VoucherStack.navigationOptions = {
+    tabBarLabel: 'Voucher',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon Icon={FontAwesome} focused={focused} name="bookmark" />
+    ),
+    tabBarOptions: {
+        activeTintColor: Colors.tabIconSelected
+    }
+}
+
 const tabNavigator = createBottomTabNavigator({
     HomeStack,
+    VoucherStack,
     ChartStack,
     ScanStack,
 });
