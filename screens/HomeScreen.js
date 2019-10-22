@@ -10,7 +10,8 @@ import {
     TouchableOpacity,
     ImageBackground,
     Image,
-    ScrollView
+    ScrollView,
+    Dimensions,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -48,11 +49,14 @@ function HomeScreen(props) {
         return (
             <View style={styles.container}>
                 <GreetBar user={user} />
-                <PointBar point={user.point}/>
+                <PointBar point={user.point} />
                 <UserBar user={user} />
-                <View>
-                    <ScrollView nestedScrollEnabled={true} horizontal={true} style={{ height: 270 }} showsHorizontalScrollIndicator={false}>
-                        <ImageBackground style={styles.adsCard}>
+                <View style={{ height: 200, width: "100%" }}>
+                    <ScrollView nestedScrollEnabled={true} horizontal={true} style={{ height: "100%", width: "100%", paddingHorizontal: 20 }} showsHorizontalScrollIndicator={false}>
+                        <ImageBackground source={require('../assets/images/ads3.png')} style={styles.adsCard}>
+
+                        </ImageBackground>
+                        <ImageBackground source={require('../assets/images/ads2.jpg')} style={styles.adsCard}>
 
                         </ImageBackground>
                     </ScrollView>
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: Constants.statusBarHeight,
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#2ec79c',
     },
     adsBar: {
         marginBottom: 0,
@@ -79,8 +83,9 @@ const styles = StyleSheet.create({
     },
     adsCard: {
         backgroundColor: 'salmon',
-        width: '100%',
+        width: Dimensions.get('window').width - 40,
         height: 200,
+        marginRight: 20,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
