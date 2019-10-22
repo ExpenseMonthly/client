@@ -12,4 +12,5 @@ export default {
     noticeBackground: tintColor,
     noticeText: '#fff',
     mainColor: '#2ec79c',
+    lightFont: '#757575'
 };
