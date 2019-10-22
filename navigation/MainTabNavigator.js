@@ -12,6 +12,7 @@ import ScanEditScreen from '../screens/ScanEditScreen';
 import GameScreen from '../screens/WheelScreen';
 import EditScreen from '../screens/EditScreen';
 import Profile from '../screens/editProfile';
+import VoucherUserList from '../screens/VoucherUserList'
 
 import VoucherListScreen from '../screens/VoucherListScreen'
 import VoucherDetailScreen from '../screens/VoucherDetailScreen'
@@ -26,6 +27,7 @@ const HomeStack = createStackNavigator(
         Home: HomeScreen,
         Profile: Profile,
         Game: GameScreen,
+        VoucherUser: VoucherUserList
     },
     config
 );

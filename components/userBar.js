@@ -39,7 +39,7 @@ export default withNavigation((props) => {
                 <Text style={{ fontSize: 20, fontWeight: "bold", borderBottomColor: '#2ec79c', borderBottomWidth: 3, textTransform: "capitalize" }}>
                     {name}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }} onPress={() => props.navigation.navigate('VoucherUser')}>
                         <FontAwesome name="ticket" size={12} />
                         <Text style={{ fontSize: 12, fontWeight: "bold", marginLeft: 5 }}>Vouchers</Text>
                     </TouchableOpacity>
