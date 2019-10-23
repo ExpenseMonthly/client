@@ -18,7 +18,7 @@ function updateScore() {
             const token = value;
             const point = -5;
             axios({
-                url: 'http://localhost:3000/users/point',
+                url: 'http://34.87.56.56/users/point',
                 method: 'patch',
                 headers: {
                     token
