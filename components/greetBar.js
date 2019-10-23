@@ -26,7 +26,7 @@ export default function greetBar(props) {
         <View style={styles.greetBar}>
             {(Number(time) >= 5 && Number(time) < 11) &&
                 <ImageBackground
-                    source={require('../assets/images/morning.png')}
+                    // source={require('../assets/images/morning.png')}
                     style={styles.greetCard}
                     blurRadius={1}>
                     <Text style={styles.greetDate}>{`${date[0]}, ${date[2]} ${date[1]} ${date[3]}`}</Text>
@@ -35,7 +35,7 @@ export default function greetBar(props) {
             }
             {(Number(time) >= 11 && Number(time) < 16) &&
                 <ImageBackground
-                    source={require('../assets/images/afternoon.png')}
+                    // source={require('../assets/images/afternoon.png')}
                     style={styles.greetCard}
                     blurRadius={1}>
                     <Text style={styles.greetDate}>{`${date[0]}, ${date[2]} ${date[1]} ${date[3]}`}</Text>
@@ -44,7 +44,7 @@ export default function greetBar(props) {
             }
             {(Number(time) >= 16 && Number(time) < 18) &&
                 <ImageBackground
-                    source={require('../assets/images/evening.png')}
+                    // source={require('../assets/images/evening.png')}
                     style={styles.greetCard}
                     blurRadius={1}>
                     <Text style={styles.greetDate}>{`${date[0]}, ${date[2]} ${date[1]} ${date[3]}`}</Text>
@@ -53,7 +53,7 @@ export default function greetBar(props) {
             }
             {(Number(time) >= 18 && Number(time) < 24) &&
                 <ImageBackground
-                    source={require('../assets/images/night.png')}
+                    // source={require('../assets/images/night.png')}
                     style={styles.greetCard}
                     blurRadius={1}>
                     <Text style={styles.greetDate}>{`${date[0]}, ${date[2]} ${date[1]} ${date[3]}`}</Text>
@@ -62,7 +62,7 @@ export default function greetBar(props) {
             }
             {(Number(time) >= 0 && Number(time) < 5) &&
                 <ImageBackground
-                    source={require('../assets/images/night.png')}
+                    // source={require('../assets/images/night.png')}
                     style={styles.greetCard}
                     blurRadius={1}>
                     <Text style={styles.greetDate}>{`${date[0]}, ${date[2]} ${date[1]} ${date[3]}`}</Text>
@@ -77,21 +77,29 @@ const styles = StyleSheet.create({
     greetBar: {
         width: '100%',
         height: 70,
-        shadowColor: "#000",
+        shadowColor: '#000000',
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 3
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        shadowRadius: 5,
+        shadowOpacity: 1.0
     },
     greetCard: {
-        backgroundColor: '#6cdef0',
+        backgroundColor: '#00a865',
         width: '100%',
         height: 70,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderBottomRightRadius: 30,
+        borderBottomLeftRadius: 30,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 5,
+        shadowOpacity: 1.0
     },
     greetDate: {
         fontSize: 15,

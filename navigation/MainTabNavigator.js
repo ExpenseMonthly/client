@@ -66,17 +66,17 @@ HomeStack.navigationOptions = {
 // }
 
 HomeStack.path = '';
-HomeStack.navigationOptions = ({ navigation }) => {
-    let tabBarVisible = true;
-    let routeName = navigation.state.routes[navigation.state.index].routeName
-    if (routeName == 'Game') {
-        tabBarVisible = false
-    }
+// HomeStack.navigationOptions = ({ navigation }) => {
+//     let tabBarVisible = true;
+//     let routeName = navigation.state.routes[navigation.state.index].routeName
+//     if (routeName == 'Game') {
+//         tabBarVisible = false
+//     }
 
-    return {
-        tabBarVisible,
-    }
-}
+//     return {
+//         tabBarVisible,
+//     }
+// }
 
 
 const ScanStack = createStackNavigator(

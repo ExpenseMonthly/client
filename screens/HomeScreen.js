@@ -51,8 +51,8 @@ function HomeScreen(props) {
                 <GreetBar user={user} />
                 <PointBar point={user.point} />
                 <UserBar user={user} />
-                <View style={{ height: 200, width: "100%" }}>
-                    <ScrollView nestedScrollEnabled={true} horizontal={true} style={{ height: "100%", width: "100%", paddingHorizontal: 20 }} showsHorizontalScrollIndicator={false}>
+                <View style={{ height: 200, width: "100%", borderRadius: 5 }}>
+                    <ScrollView nestedScrollEnabled={true} horizontal={false} style={{ height: "100%", width: "100%", paddingHorizontal: 20, borderRadius: 5 }} showsHorizontalScrollIndicator={false}>
                         <ImageBackground source={require('../assets/images/ads3.png')} style={styles.adsCard}>
 
                         </ImageBackground>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-        borderRadius: 5,
+        borderRadius: 10,
     }
 });
 

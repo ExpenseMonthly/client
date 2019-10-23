@@ -46,7 +46,7 @@ export default withNavigation((props) => {
                     <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => props.navigation.navigate('Profile')}>
                         <FontAwesome name="cog" size={12} />
-                        <Text style={{ fontSize: 12, fontWeight: "bold", marginLeft: 5 }}>Profile Settings</Text>
+                        <Text style={{ fontSize: 12, fontWeight: "bold", marginLeft: 5 }}>Profile Info</Text>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -30,6 +30,7 @@ function EditProfile(props) {
     const user = useSelector(state => state.user.user);
     return (
         <View style={styles.container}>
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 30, marginVertical: 20 }}>Profile Info</Text>
             <View style={styles.userInfo}>
                 <Image style={styles.image} source={require('../assets/images/male.png')}></Image>
                 <View style={styles.infoBox}>
@@ -47,11 +48,11 @@ function EditProfile(props) {
                             <Text style={styles.fieldValue}>{user.gender}</Text>
                         </View>
                     </View>
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10 }}
+                    {/* <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 10 }}
                         onPress={() => console.log(`aaaaa`)}>
                         <FontAwesome name="edit" size={15} />
                         <Text style={{ fontSize: 15, fontWeight: "bold", marginLeft: 5 }}>Edit</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
             <View style={{
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
         paddingTop: ExpoConstants.statusBarHeight,
         backgroundColor: Color.mainColor,
         paddingHorizontal: 20,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     userInfo: {
         width: '100%',

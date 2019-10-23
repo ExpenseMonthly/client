@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
         textAlign: "right"
     },
     image: {
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5, 
         width: "100%",
         height: 100,
         resizeMode: "cover"
