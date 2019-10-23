@@ -38,12 +38,20 @@ function updateScore() {
 }
 
 function PointBar(props) {
-    const gotogame = () => {
+    const gotogame1 = () => {
         if (props.point < 5) {
             Alert.alert(`Sorry you need at least 5 point to play game`, "", [{ text: 'Ok' }])
         } else {
             updateScore();
-            props.navigation.navigate('Game');
+            props.navigation.navigate('Game1');
+        }
+    }
+    const gotogame2 = () => {
+        if (props.point < 5) {
+            Alert.alert(`Sorry you need at least 5 point to play game`, "", [{ text: 'Ok' }])
+        } else {
+            updateScore();
+            props.navigation.navigate('Game2');
         }
     }
     return (
@@ -52,13 +60,22 @@ function PointBar(props) {
                 <Image source={require('../assets/images/coin.png')} style={{ width: 50, height: 50 }}></Image>
                 <Text style={{ fontSize: 45, fontWeight: 'bold' }}>{props.point}</Text>
             </View>
-            <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10, borderTopRightRadius: 5, borderBottomRightRadius: 5 }} onPress={gotogame} >
-                <View>
-                    <Text style={{ fontSize: 30, color: '#fff', fontWeight: 'bold' }}>
-                        Playgame
+            <View>
+                <TouchableOpacity style={{ backgroundColor: '#614700', justifyContent: 'center', alignItems: 'center', padding: 10, borderTopRightRadius: 5 }} onPress={gotogame1} >
+                    <View>
+                        <Text style={{ fontSize: 15, color: '#fff', fontWeight: 'bold' }}>
+                            Remember Me
                     </Text>
-                </View>
-            </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ backgroundColor: '#de8900', justifyContent: 'center', alignItems: 'center', padding: 10, borderBottomRightRadius: 5 }} onPress={gotogame2} >
+                    <View>
+                        <Text style={{ fontSize: 15, color: '#fff', fontWeight: 'bold' }}>
+                            Wheel Spin
+                    </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };

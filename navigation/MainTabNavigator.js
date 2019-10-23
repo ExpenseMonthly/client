@@ -9,7 +9,8 @@ import ScanScreen from '../screens/ScanScreen';
 import ChartScreen from '../screens/ChartScreen';
 import TransactionDetailScreen from '../screens/TransactionDetailScreen';
 import ScanEditScreen from '../screens/ScanEditScreen';
-import GameScreen from '../screens/WheelScreen';
+import WheelScreen from '../screens/WheelScreen';
+import RememberMe from '../screens/GameScreen';
 import EditScreen from '../screens/EditScreen';
 import Profile from '../screens/editProfile';
 import VoucherUserList from '../screens/VoucherUserList'
@@ -27,9 +28,10 @@ const HomeStack = createStackNavigator(
     {
         Home: HomeScreen,
         Profile: Profile,
-        Game: GameScreen,
         VoucherUser: VoucherUserList,
-        VoucherUserDetail: VoucherUserDetailScreen
+        VoucherUserDetail: VoucherUserDetailScreen,
+        Game1: RememberMe,
+        Game2: WheelScreen,
     },
     config
 );
