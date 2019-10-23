@@ -4,6 +4,8 @@ import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import { FontAwesome } from '@expo/vector-icons';
 import { TransactionAxios } from '../constants/Utilities';
+import Loading from '../components/Loading';
+
 export default function ScanScreen(props) {
     const [hasCameraPermission, setHasCameraPermission] = useState('granted');
     const [isFocused, setIsFocused] = useState(true);
@@ -70,7 +72,7 @@ export default function ScanScreen(props) {
 
     if (!isFocused) return <View><Text>testing</Text></View>
     else if (isFocused)
-        if (loading) return <ActivityIndicator size="large" color="#E67E22" style={{ flex: 1 }} />;
+        if (loading) return <Loading />;
         else
             return (
                 <View style={{ flex: 1 }}>

@@ -21,14 +21,14 @@ const fontSize = 26;
 const oneTurn = 360;
 const angleBySegment = oneTurn / numberOfSegments;
 const angleOffset = angleBySegment / 2;
-const knobFill = color({ hue: 'purple' });
+const knobFill = color({ hue: 'grey' });
 
 
 const makeWheel = () => {
     const data = Array.from({ length: numberOfSegments }).fill(1);
     const arcs = d3Shape.pie()(data);
     const Prices = ['5', 'ZONK', '10', 'ZONK', '20', 'ZONK'];
-    const colors = ['#ffae0d', '#68c900', '#ffae0d', '#68c900', '#ff4747', '#68c900'];
+    const colors = ['#ffae0d', '#00a865', '#ffae0d', '#00a865', '#ff4747', '#00a865'];
 
     return arcs.map((arc, index) => {
         const instance = d3Shape

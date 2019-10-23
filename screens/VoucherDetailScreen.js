@@ -18,7 +18,7 @@ function VoucherDetailScreen(props) {
 
     async function getUser() {
         const token = await AsyncStorage.getItem('token')
-        
+
         const { data } = await UserAxios({
             url: "/",
             method: "GET",
@@ -36,12 +36,12 @@ function VoucherDetailScreen(props) {
             }
         )
     }, [])
-    
+
     const handlePurchase = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
 
-            if(user.point >= point) {
+            if (user.point >= point) {
                 await UserAxios({
                     method: "POST",
                     url: "/voucers/" + _id,
@@ -82,16 +82,23 @@ function VoucherDetailScreen(props) {
             />
             <View style={styles.detailContainer}>
                 <ScrollView style={{ width: "100%", height: "100%" }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-                    <View>
-                        <View style={{ marginBottom: 20 }}>
+                    <View style={{ marginBottom: 220 }}>
+                        <View style={{ marginBottom: 10 }}>
                             <Text style={styles.title}>{title}</Text>
                         </View>
-                        <View style={{ paddingTop: 10 }}>
-                            <Text style={styles.point}>Point : {point}</Text>
-                        </View>
+
                         <Text style={styles.description}>{description}</Text>
-                        <View style={{ paddingTop: 10 }}>
-                            <Text style={styles.date}>{convertDate(expire_date)}</Text>
+                        <View style={{ flexDirection: "row", height: 40, justifyContent: "space-between", alignItems: "center" }}>
+                            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                                <Image
+                                    style={{ width: 30, height: 30 }}
+                                    source={require('../assets/images/coin.png')}
+                                /><Image />
+                                <Text style={styles.point}>{point}</Text>
+                            </View>
+                            <View style={{ paddingTop: 10 }}>
+                                <Text style={styles.date}>Expired on : {convertDate(expire_date)}</Text>
+                            </View>
                         </View>
                         <TouchableOpacity style={styles.purchaseButton} onPress={() => handlePurchase()}>
                             <Text style={{ textAlign: "center", color: "white" }}>Purchase</Text>
@@ -133,23 +140,27 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 15,
         color: "orange",
-        textAlign: "right"
+        textAlign: "right",
+        fontWeight: "bold"
     },
-    Point: {
-        fontSize: 15,
-        color: "orange"
+    point: {
+        fontSize: 25,
+        color: "orange",
+        fontWeight: "bold"
     },
     description: {
         fontSize: 20,
-        color: Colors.lightFont
+        color: Colors.lightFont,
+        minHeight: 270,
+        marginBottom : 20
     },
     purchaseButton: {
         paddingHorizontal: 20,
         paddingVertical: 10,
         backgroundColor: Colors.mainColor,
         borderRadius: 5,
-        marginTop: 30,
-        marginBottom: 250
+        marginTop: 10
+        // marginBottom: 250
     }
 })
 

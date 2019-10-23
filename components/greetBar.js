@@ -77,13 +77,15 @@ const styles = StyleSheet.create({
     greetBar: {
         width: '100%',
         height: 70,
-        shadowColor: '#000000',
+        shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 3
+            height: 3,
         },
-        shadowRadius: 5,
-        shadowOpacity: 1.0
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        
+        elevation: 7,
     },
     greetCard: {
         backgroundColor: '#00a865',
@@ -93,13 +95,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomRightRadius: 30,
         borderBottomLeftRadius: 30,
-        shadowColor: '#000000',
-        shadowOffset: {
-            width: 0,
-            height: 3
-        },
-        shadowRadius: 5,
-        shadowOpacity: 1.0
     },
     greetDate: {
         fontSize: 15,

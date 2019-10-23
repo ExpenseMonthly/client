@@ -47,16 +47,13 @@ function VoucherUserDetailScreen(props) {
             />
             <View style={styles.detailContainer}>
                 <ScrollView style={{ width: "100%", height: "100%" }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-                    <View>
+                    <View style={{ marginBottom : 220 }}>
                         <View style={{ marginBottom: 20 }}>
                             <Text style={styles.title}>{title}</Text>
                         </View>
-                        <View style={{ paddingTop: 10 }}>
-                            <Text style={styles.point}>Point : {point}</Text>
-                        </View>
                         <Text style={styles.description}>{description}</Text>
                         <View style={{ paddingTop: 10 }}>
-                            <Text style={styles.date}>{convertDate(expire_date)}</Text>
+                            <Text style={styles.date}>Expired on : {convertDate(expire_date)}</Text>
                         </View>
                         <TouchableOpacity style={styles.redeemButton}>
                             <Text style={{ textAlign: "center", color: "white" }}>Redeem</Text>
@@ -98,7 +95,8 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 15,
         color: "orange",
-        textAlign: "right"
+        textAlign: "right",
+        fontWeight: "bold"
     },
     Point: {
         fontSize: 15,
@@ -106,15 +104,17 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 20,
-        color: Colors.lightFont
+        color: Colors.lightFont,
+        minHeight: 270,
+        marginBottom : 20
     },
     redeemButton: {
         paddingHorizontal: 20,
         paddingVertical: 10,
         backgroundColor: Colors.mainColor,
         borderRadius: 5,
-        marginTop: 30,
-        marginBottom: 250
+        marginTop: 10
+        // marginBottom: 250
     }
 })
 

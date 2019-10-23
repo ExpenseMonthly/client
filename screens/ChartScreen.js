@@ -93,8 +93,8 @@ export default function ScanScreen(props) {
             <View style={{ marginVertical: 12, marginHorizontal: 10, flexDirection: 'row', justifyContent: 'center' }}>
                 <Picker
                     selectedValue={month}
-                    style={{ height: 50, width: 100, color: "white" }}
-                    itemStyle={{ height: 50 }}
+                    style={{ height: 20, width: 100, color: "white" }}
+                    itemStyle={{ height: 20 }}
                     onValueChange={(itemValue, itemIndex) =>
                         setMonth(itemValue)
                     }
@@ -105,8 +105,8 @@ export default function ScanScreen(props) {
                 </Picker>
                 <Picker
                     selectedValue={year}
-                    style={{ height: 50, width: 100, color: "white" }}
-                    itemStyle={{ height: 50 }}
+                    style={{ height: 20, width: 100, color: "white" }}
+                    itemStyle={{ height: 20 }}
                     onValueChange={(itemValue, itemIndex) =>
                         setYear(itemValue)
                     }

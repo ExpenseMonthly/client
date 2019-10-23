@@ -11,9 +11,14 @@ function Voucher(props) {
             />
             <View style={{ padding: 10 }}>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.expire}>Point : {point}</Text>
+                <View style={{ flexDirection: "row", justifyContent: "flex-end" , alignItems: "center" }}>
+                    <Image
+                        style={{ width: 20, height: 20 }}
+                        source={require('../assets/images/coin.png')}
+                    /><Image />
+                    <Text style={styles.point}>{point}</Text>
+                </View>
                 <Text style={styles.expire}>Expired on : {convertDate(expire_date)}</Text>
-
             </View>
         </View>
     )
@@ -42,6 +47,12 @@ const styles = StyleSheet.create({
     },
     expire: {
         textAlign: "right"
+    },
+    point :{
+        fontWeight: "bold",
+        fontSize: 20,
+        color: "orange",
+        paddingLeft: 5
     },
     image: {
         borderTopLeftRadius: 5,
