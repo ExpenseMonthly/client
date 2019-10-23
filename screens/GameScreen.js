@@ -59,7 +59,7 @@ function GameScreen(props) {
         AsyncStorage.getItem('token')
             .then(token => {
                 axios({
-                    url: 'http://localhost:3000/users/point',
+                    url: 'http://34.87.56.56/users/point',
                     method: 'patch',
                     headers: {
                         token

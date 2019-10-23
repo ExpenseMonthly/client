@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoginStatus } from '../redux/actions'
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Alert, AsyncStorage } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Alert, AsyncStorage, Image } from 'react-native'
 import Color from '../constants/Colors'
 import Loading from '../components/Loading'
 import Constants from 'expo-constants'
@@ -61,8 +61,8 @@ export default function LoginScreen(props) {
     if (loading) return <Loading />
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
-            <View style={{ padding: 20 }}>
-                <Text style={styles.logo} >FinTrace</Text>
+            <View style={{ padding: 20, alignItems: 'center' }}>
+                <Image style={{width: 300, height: 100}} source={require('../assets/images/logo.png')}></Image>
                 <Text style={styles.logoWord} >Your Transaction Solution</Text>
             </View>
             <View style={styles.loginForm}>

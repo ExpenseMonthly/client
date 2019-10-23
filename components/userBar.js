@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setLoginStatus } from '../redux/actions'
 import { API } from 'react-native-dotenv'
 import {
@@ -14,7 +14,8 @@ import { withNavigation } from 'react-navigation';
 import { FontAwesome } from '@expo/vector-icons';
 
 export default withNavigation((props) => {
-    const [name, setName] = useState('');
+    const [name , setName ] = useState();
+    // const user = useSelector(state => state.user.user);
     async function getUser() {
         const user = props.user
         const name = user.name.split(" ");
