@@ -2,7 +2,7 @@ import Axios from 'axios'
 import { API } from 'react-native-dotenv'
 console.log(`server base url : ${API}`)
 
-const baseURL = `${API}`
+const baseURL = API || 'http://localhost:3000'
 
 export const UserAxios = Axios.create({
     baseURL: `${baseURL}/users`,
@@ -43,7 +43,7 @@ export const getDate = (dateFormat) => {
 export const convertMonth = (dateFormat) => {
     const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
     const convertedDate = new Date(dateFormat)
-    
+
     const month = monthArray[convertedDate.getMonth()];
     return `${month}`
 }
@@ -55,8 +55,8 @@ export const convertYear = (dateFormat) => {
 }
 
 export const addZero = (num) => {
-    if(Number(num) <= 9) {
-        return '0'+num
+    if (Number(num) <= 9) {
+        return '0' + num
     } else {
         return String(num)
     }

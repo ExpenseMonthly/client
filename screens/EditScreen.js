@@ -153,13 +153,13 @@ function EditScreen(props) {
                                     <TextInput
                                         style={styles.input}
                                         onChangeText={text => setItemName(text)}
-                                        value={itemName}
+                                        value={String(itemName)}
                                         placeholder="item name"
                                     />
                                     <TextInput
                                         style={styles.input}
                                         onChangeText={text => setItemQty(text)}
-                                        value={itemQty}
+                                        value={String(itemQty)}
                                         placeholder="item qty"
                                         keyboardType="numeric"
 
@@ -167,7 +167,7 @@ function EditScreen(props) {
                                     <TextInput
                                         style={styles.input}
                                         onChangeText={text => setItemPrice(text)}
-                                        value={itemPrice}
+                                        value={String(itemPrice)}
                                         placeholder="item price"
                                         keyboardType="numeric"
                                     />

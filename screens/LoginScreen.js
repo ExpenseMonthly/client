@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setLoginStatus } from '../redux/actions'
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Alert, AsyncStorage } from 'react-native'
 import Color from '../constants/Colors'
+import Loading from '../components/Loading'
 import Constants from 'expo-constants'
 import { UserAxios } from '../constants/Utilities'
 
@@ -18,6 +19,8 @@ export default function LoginScreen(props) {
         // console.log(token, "<<<< TOKEN")
         if (token)
             await dispatch(setLoginStatus(true))
+
+
     }
     useEffect(() => {
         checkToken()
@@ -55,7 +58,7 @@ export default function LoginScreen(props) {
             Alert.alert("Invalid Email/Password")
         }
     }
-    if (loading) return <Text>Loading logims...</Text>
+    if (loading) return <Loading />
     return (
         <KeyboardAvoidingView style={styles.container} behavior="padding">
             <View style={{ padding: 20 }}>

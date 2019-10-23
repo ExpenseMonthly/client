@@ -47,9 +47,6 @@ HomeStack.navigationOptions = {
     ),
     tabBarOptions: {
         activeTintColor: Colors.tabIconSelected
-    },
-    tabBarVisible : () => {
-        return (navigation.state.routes[navigation.state.index].routeName =='Game' ) ? false : true 
     }
     
 };
@@ -77,6 +74,7 @@ HomeStack.path = '';
 //         tabBarVisible,
 //     }
 // }
+
 
 
 const ScanStack = createStackNavigator(

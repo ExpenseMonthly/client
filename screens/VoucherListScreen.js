@@ -12,7 +12,7 @@ import { VoucherAxios } from '../constants/Utilities';
 function VoucherListScreen(props) {
 
     let [vouchers, setVouchers] = useState(Array);
-    
+
     const getVouchers = async () => {
         try {
             const token = await AsyncStorage.getItem("token");
@@ -23,21 +23,21 @@ function VoucherListScreen(props) {
             });
 
             setVouchers(data)
-        } catch (error) {
+        } catch (err) {
             if (err.response.data)
                 console.log(err.response.data)
             else
                 console.log(err)
         }
     }
-    
+
     useEffect(() => {
         getVouchers();
-        
+
         props.navigation.addListener(
             'didFocus',
             payload => {
-                getVouchers();                
+                getVouchers();
             }
         )
     }, [])
@@ -45,7 +45,6 @@ function VoucherListScreen(props) {
     return (
         <View style={styles.container}>
             <ScrollView style={{ width: "100%", height: "100%" }} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                <TouchableOpacity onPress={() => props.navigation.goBack()}><Ionicons name="ios-arrow-back" size={40} color="white" /></TouchableOpacity>
                 <View style={styles.headerContainer}>
                     <Text style={styles.header}>Voucher List</Text>
                 </View>

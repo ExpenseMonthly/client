@@ -26,13 +26,21 @@ function HomeScreen(props) {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user);
     async function getUser() {
-        const token = await AsyncStorage.getItem('token')
-        const { data } = await UserAxios({
-            url: "/",
-            method: "GET",
-            headers: { token }
-        })
-        await dispatch(setUser(data))
+        try {
+            const token = await AsyncStorage.getItem('token')
+            const { data } = await UserAxios({
+                url: "/",
+                method: "GET",
+                headers: { token }
+            })
+            await dispatch(setUser(data))
+
+        } catch (error) {
+            await dispatch(setLoginStatus(false))
+            const keys = await AsyncStorage.getAllKeys()
+            await AsyncStorage.multiRemove(keys)
+            props.navigation.navigate('Login')
+        }
     }
     useEffect(() => {
         getUser()
