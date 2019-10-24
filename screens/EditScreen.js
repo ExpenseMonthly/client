@@ -15,7 +15,7 @@ function EditScreen(props) {
     const [itemQty, setItemQty] = useState(null)
     const [itemPrice, setItemPrice] = useState(0)
     const [itemIndex, setItemIndex] = useState(null)
-    const [addName, setAddName] = useState(null)
+    const [addName, setAddName] = useState('')
     const [addQty, setAddQty] = useState(0)
     const [addPrice, setAddPrice] = useState(0)
     const [isEdit, setIsEdit] = useState(true)
@@ -72,7 +72,7 @@ function EditScreen(props) {
                 data: transaction
             })
             Alert.alert("Update Success", "Your data successfully updated!")
-            props.navigation.goBack()
+            props.navigation.navigate('Chart')
         } catch (error) {
             if (error.response.data.message)
                 Alert.alert(error.response.data.message[0])
@@ -86,12 +86,13 @@ function EditScreen(props) {
         setModalVisible(true)
     }
     const addItem = () => {
-        if (addName && addQty != 0 && addPrice != 0) {
+
+        if (addName && Number(addQty) != 0 && Number(addPrice) != 0) {
             let newTransaction = _.cloneDeep(transaction)
             newTransaction.items.push({
                 name: addName,
-                qty: addQty,
-                price: addPrice
+                qty: Number(addQty),
+                price: Number(addPrice)
             })
             setTransaction(newTransaction)
             setModalVisible(false)
@@ -194,20 +195,20 @@ function EditScreen(props) {
                                     <TextInput
                                         style={styles.input}
                                         onChangeText={text => setAddName(text)}
-                                        value={setAddName}
+                                        value={addName}
                                         placeholder="item name"
                                     />
                                     <TextInput
                                         style={styles.input}
                                         onChangeText={text => setAddQty(text)}
-                                        value={addQty}
+                                        value={String(addQty)}
                                         placeholder="item qty"
                                         keyboardType="numeric"
                                     />
                                     <TextInput
                                         style={styles.input}
                                         onChangeText={text => setAddPrice(text)}
-                                        value={addPrice}
+                                        value={String(addPrice)}
                                         placeholder="item price"
                                         keyboardType="numeric"
                                     />

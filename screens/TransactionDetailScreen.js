@@ -43,6 +43,7 @@ function TransactionDetail(props) {
     const handleEdit = () => {
         props.navigation.navigate('Edit', { transaction })
     }
+
     return (
         <View style={styles.container}>
             <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
