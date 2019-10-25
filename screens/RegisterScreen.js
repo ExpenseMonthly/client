@@ -86,8 +86,8 @@ export default function LoginScreen(props) {
                 />
                 <Picker
                     selectedValue={gender}
-                    style={{ height: 100, width: "100%" }}
-                    itemStyle={{ height: 100, backgroundColor: "white" }}
+                    style={ styles.inputText}
+                    itemStyle={ styles.inputText }
                     onValueChange={gender => setGender(gender)}>
                     <Picker.Item label="I'm Male" value="male" />
                     <Picker.Item label="I'm Female" value="female" />
